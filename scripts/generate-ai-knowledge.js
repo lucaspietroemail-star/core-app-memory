@@ -382,7 +382,7 @@ function processKnowledgeLayer() {
     </div>
   `;
 
-  const stateDir = path.join(ROOT_DIR, 'project-state');
+  const stateDir = path.join(ROOT_DIR, 'ais', 'project-state');
   if (!fs.existsSync(stateDir)) fs.mkdirSync(stateDir, { recursive: true });
   fs.writeFileSync(
     path.join(stateDir, 'index.html'), 
@@ -497,7 +497,7 @@ function processKnowledgeLayer() {
     </div>
   `;
 
-  const knowledgeDir = path.join(ROOT_DIR, 'project-knowledge');
+  const knowledgeDir = path.join(ROOT_DIR, 'ais', 'project-knowledge');
   if (!fs.existsSync(knowledgeDir)) fs.mkdirSync(knowledgeDir, { recursive: true });
   fs.writeFileSync(
     path.join(knowledgeDir, 'index.html'), 
@@ -543,7 +543,7 @@ function processKnowledgeLayer() {
     </div>
   `;
 
-  const focusDir = path.join(ROOT_DIR, 'project-focus');
+  const focusDir = path.join(ROOT_DIR, 'ais', 'project-focus');
   if (!fs.existsSync(focusDir)) fs.mkdirSync(focusDir, { recursive: true });
   fs.writeFileSync(
     path.join(focusDir, 'index.html'), 
@@ -587,7 +587,7 @@ function processKnowledgeLayer() {
     </div>
   `;
 
-  const actionsDir = path.join(ROOT_DIR, 'project-actions');
+  const actionsDir = path.join(ROOT_DIR, 'ais', 'project-actions');
   if (!fs.existsSync(actionsDir)) fs.mkdirSync(actionsDir, { recursive: true });
   fs.writeFileSync(
     path.join(actionsDir, 'index.html'), 
