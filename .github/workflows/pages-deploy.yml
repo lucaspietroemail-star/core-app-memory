@@ -21,6 +21,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+
+      - name: Clean previous artifacts
+        run: rm -rf ./out ./dist ./build || true
+          
       - name: Checkout Code
         uses: actions/checkout@v4
 
