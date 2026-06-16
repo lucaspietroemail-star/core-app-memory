@@ -217,7 +217,22 @@ function wrapHtmlTemplate(title, subtitle, content, jsonPath) {
 
         <footer class="footer-nav">
              <div>
-                <a href="../ais/dashboard/index.html">📈 Return to Executive Dashboard</a>
+                <a href="../dashboard/index.html" id="back-to-dashboard">📈 Return to Executive Dashboard</a>
+                <script>
+                   // In local dev, dashboard might be under /ais/dashboard/
+                   // This ensures the back link works in both local and flattened production
+                   document.addEventListener('DOMContentLoaded', () => {
+                     const link = document.getElementById('back-to-dashboard');
+                     fetch(link.href, { method: 'HEAD' }).then(r => {
+                       if (!r.ok) link.href = link.href.replace('../dashboard/', '../ais/dashboard/');
+                     }).catch(() => {
+                       // Fallback for CORS or older browsers
+                       if (window.location.hostname === 'localhost' || window.location.hostname.includes('run.app')) {
+                          link.href = link.href.replace('../dashboard/', '../ais/dashboard/');
+                       }
+                     });
+                   });
+                </script>
              </div>
              <div style="display:flex; gap:1.5rem;">
                 <a href="../project-state/index.html">🧠 State Snapshot</a>
@@ -273,17 +288,17 @@ function processKnowledgeLayer() {
     versionCode: version.versionCode,
     updatedAt: new Date().toISOString(),
     exports: {
-      state: "/core-app-memory/exports/wear-core-state-export.json",
-      knowledge: "/core-app-memory/exports/wear-core-knowledge-export.json",
-      focus: "/core-app-memory/exports/wear-core-current-focus.json",
-      actions: "/core-app-memory/exports/wear-core-ai-actions.json",
-      insights: "/core-app-memory/exports/wear-core-dashboard-audit-report.json"
+      state: "exports/wear-core-state-export.json",
+      knowledge: "exports/wear-core-knowledge-export.json",
+      focus: "exports/wear-core-current-focus.json",
+      actions: "exports/wear-core-ai-actions.json",
+      insights: "exports/wear-core-dashboard-audit-report.json"
     },
     pages: {
-      state: "/core-app-memory/project-state/index.html",
-      knowledge: "/core-app-memory/project-knowledge/index.html",
-      focus: "/core-app-memory/project-focus/index.html",
-      actions: "/core-app-memory/project-actions/index.html"
+      state: "project-state/index.html",
+      knowledge: "project-knowledge/index.html",
+      focus: "project-focus/index.html",
+      actions: "project-actions/index.html"
     }
   };
 

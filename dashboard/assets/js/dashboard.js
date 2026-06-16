@@ -138,46 +138,62 @@ function normalizeDashboardState(data) {
 }
 
 /**
- * Dynamically resolves the single, correct absolute URL scheme for the combined-state.json based on modern location protocols.
+ * Dynamically resolves the root path of the AIS application, accounting for optional '/ais/' prefix
+ * and subpath hosting (e.g. GitHub Pages).
  */
-function resolveGlobalStateUrl() {
-  const origin = window.location.origin;
+function getAisRootPath() {
   const pathname = window.location.pathname;
-
-  console.log("[AIS Path Resolver] Location details:", { origin, pathname, protocol: window.location.protocol });
-
-  // If protocol is file:// (local testing without webserver), we use standard relative fallback
-  if (window.location.protocol === 'file:' || !origin || origin === 'null') {
-    return '../aggregate/combined-state.json';
-  }
-
   const lowerPath = pathname.toLowerCase();
   
-  // Case 1: Match "/ais/dashboard" or "/ais/dashboard/"
-  const aisDashboardIndex = lowerPath.indexOf('/ais/dashboard');
-  if (aisDashboardIndex !== -1) {
-    const basePath = pathname.substring(0, aisDashboardIndex);
-    const originalAis = pathname.substring(aisDashboardIndex + 1, aisDashboardIndex + 4);
-    return `${origin}${basePath}/${originalAis}/aggregate/combined-state.json`;
+  // Possible entry points for the dashboard
+  const triggers = ['/ais/dashboard', '/dashboard'];
+  
+  for (const trigger of triggers) {
+    const index = lowerPath.indexOf(trigger);
+    if (index !== -1) {
+      return pathname.substring(0, index);
+    }
   }
+  
+  return "";
+}
 
-  // Case 2: Match "/dashboard"
-  const dashboardIndex = lowerPath.indexOf('/dashboard');
-  if (dashboardIndex !== -1) {
-    const basePath = pathname.substring(0, dashboardIndex);
-    return `${origin}${basePath}/aggregate/combined-state.json`;
+/**
+ * Checks if the application is running with the '/ais/' directory prefix.
+ */
+function hasAisPrefix() {
+  return window.location.pathname.toLowerCase().includes('/ais/dashboard');
+}
+
+/**
+ * Resolves a path relative to the AIS root, handling protocols and subpaths.
+ * @param {string} relativeTarget - The target path relative to AIS root (e.g. 'exports/ai-index.json')
+ */
+function resolveAisUrl(relativeTarget) {
+  const origin = window.location.origin;
+  const protocol = window.location.protocol;
+  
+  // Local file testing fallback
+  if (protocol === 'file:' || !origin || origin === 'null') {
+    return '../' + relativeTarget;
   }
+  
+  const basePath = getAisRootPath();
+  const prefix = hasAisPrefix() ? '/ais' : '';
+  
+  // Remove leading slash if present in target to prevent double slashes
+  const cleanTarget = relativeTarget.startsWith('/') ? relativeTarget.substring(1) : relativeTarget;
+  
+  const finalUrl = `${origin}${basePath}${prefix}/${cleanTarget}`;
+  console.log(`[AIS Resolver] Resolved: ${relativeTarget} -> ${finalUrl}`);
+  return finalUrl;
+}
 
-  // Case 3: Match "/ais"
-  const aisIndex = lowerPath.indexOf('/ais');
-  if (aisIndex !== -1) {
-    const basePath = pathname.substring(0, aisIndex);
-    const originalAis = pathname.substring(aisIndex + 1, aisIndex + 4);
-    return `${origin}${basePath}/${originalAis}/aggregate/combined-state.json`;
-  }
-
-  // Final fallback path mapping
-  return `${origin}/ais/aggregate/combined-state.json`;
+/**
+ * Dynamically resolves the single, correct absolute URL scheme for the combined-state.json.
+ */
+function resolveGlobalStateUrl() {
+  return resolveAisUrl('aggregate/combined-state.json');
 }
 
 /**
@@ -731,7 +747,7 @@ function populateArchiveTelemetrySystem(data) {
         knowledgeRawEl.textContent = JSON.stringify(archData.knowledgeExportSnapshot, null, 2);
         if (knowledgeTitleEl) knowledgeTitleEl.textContent = "Active knowledge-export.json Payload Dynamic Content";
       } else {
-        const historicalUrl = `../../ais/exports/wear-core-knowledge-export-${val}.json`;
+        const historicalUrl = resolveAisUrl(`exports/wear-core-knowledge-export-${val}.json`);
         knowledgeRawEl.textContent = `// Contacting active database to fetch historical snapshot of version ${val}...`;
         
         fetch(historicalUrl)
@@ -906,18 +922,7 @@ function populateAiKnowledgeCenterSystem(data) {
   const payloadPre = document.getElementById('ai-index-payload');
   if (payloadPre) {
     payloadPre.textContent = "// Initiating active discovery fetch of ai-index.json ...";
-    const origin = window.location.origin;
-    const locationPath = window.location.pathname;
-    let targetUrl = '../../exports/ai-index.json';
-    if (window.location.protocol !== 'file:' && origin && origin !== 'null') {
-      const aisIndex = locationPath.toLowerCase().indexOf('/ais/dashboard');
-      if (aisIndex !== -1) {
-        const basePath = locationPath.substring(0, aisIndex);
-        targetUrl = `${origin}${basePath}/exports/ai-index.json`;
-      } else {
-        targetUrl = `${origin}/exports/ai-index.json`;
-      }
-    }
+    const targetUrl = resolveAisUrl('exports/ai-index.json');
     
     fetch(targetUrl)
       .then(r => {
@@ -997,7 +1002,7 @@ window.compareMetadataVersions = function(version) {
   document.getElementById('comp-past-files').textContent = "Retrieving...";
   document.getElementById('comp-past-score').textContent = "Retrieving...";
   
-  const historicalUrl = `../../ais/exports/wear-core-knowledge-export-${version}.json`;
+  const historicalUrl = resolveAisUrl(`exports/wear-core-knowledge-export-${version}.json`);
   fetch(historicalUrl)
     .then(r => {
       if (!r.ok) throw new Error(`HTTP Status ${r.status}`);

@@ -1,10 +1,10 @@
 window.dashboardData = {
-  "generatedAt": "2026-06-14T23:36:47.090Z",
+  "generatedAt": "2026-06-16T02:18:22.543Z",
   "version": {
-    "versionCode": 24,
-    "versionName": "1.1.0-wc",
+    "versionCode": 32,
+    "versionName": "1.3.1-wc",
     "releaseChannel": "stable",
-    "buildDate": "2026-06-14"
+    "buildDate": "2026-06-16"
   },
   "qualityGate": {
     "status": "APPROVED",
@@ -31,144 +31,23 @@ window.dashboardData = {
     "findingsLog": []
   },
   "lintReport": {
-    "status": "OK",
-    "scanTime": "2026-06-14T23:36:35.925Z",
+    "status": "UNKNOWN",
     "summary": {
-      "totalFilesScanned": 211,
-      "totalViolations": 0,
-      "fileViolationsCount": 0,
-      "structuralViolationsCount": 0
+      "totalFilesScanned": 0,
+      "totalViolations": 0
     },
     "fileViolations": [],
     "structuralViolations": []
   },
   "dependencyReport": {
-    "status": "VIOLATIONS",
-    "executedAt": "2026-06-14T23:36:40.088Z",
-    "totalFilesChecked": 217,
-    "totalDependencyViolations": 1,
-    "violations": [
-      {
-        "file": "feature-debug/src/main/java/com/example/feature/debug/vm/DebugViewModel.kt",
-        "violations": [
-          {
-            "layer": "vm",
-            "import": "com.example.data.datasource.FakeSensorDataSource",
-            "forbiddenPattern": "DataSource",
-            "message": "Layer 'vm' is forbidden from importing 'com.example.data.datasource.FakeSensorDataSource' (DataSource)"
-          }
-        ]
-      }
-    ]
+    "status": "UNKNOWN",
+    "totalFilesChecked": 0,
+    "totalDependencyViolations": 0,
+    "violations": []
   },
   "breakingChangeReport": {
-    "status": "FAIL",
-    "checkedAt": "2026-06-14T23:36:41.033Z",
-    "totalModifications": 17,
-    "findings": [
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-launcher",
-        "message": "Breaking Change: Folder layer 'domain' has been removed/is missing from module 'feature-launcher'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-launcher",
-        "message": "Breaking Change: Folder layer 'data' has been removed/is missing from module 'feature-launcher'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-drawer",
-        "message": "Breaking Change: Folder layer 'domain' has been removed/is missing from module 'feature-drawer'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-drawer",
-        "message": "Breaking Change: Folder layer 'data' has been removed/is missing from module 'feature-drawer'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-notifications",
-        "message": "Breaking Change: Folder layer 'domain' has been removed/is missing from module 'feature-notifications'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-notifications",
-        "message": "Breaking Change: Folder layer 'data' has been removed/is missing from module 'feature-notifications'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-media",
-        "message": "Breaking Change: Folder layer 'domain' has been removed/is missing from module 'feature-media'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-media",
-        "message": "Breaking Change: Folder layer 'data' has been removed/is missing from module 'feature-media'"
-      },
-      {
-        "severity": "warning",
-        "type": "MISSING_STATE_REPRESENTATION",
-        "module": "feature-media",
-        "message": "Architectural anomaly: No matching state modeling structures declared inside module 'feature-media'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-settings",
-        "message": "Breaking Change: Folder layer 'domain' has been removed/is missing from module 'feature-settings'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-settings",
-        "message": "Breaking Change: Folder layer 'data' has been removed/is missing from module 'feature-settings'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-sensors",
-        "message": "Breaking Change: Folder layer 'domain' has been removed/is missing from module 'feature-sensors'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-sensors",
-        "message": "Breaking Change: Folder layer 'data' has been removed/is missing from module 'feature-sensors'"
-      },
-      {
-        "severity": "warning",
-        "type": "MISSING_STATE_REPRESENTATION",
-        "module": "feature-sensors",
-        "message": "Architectural anomaly: No matching state modeling structures declared inside module 'feature-sensors'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-debug",
-        "message": "Breaking Change: Folder layer 'domain' has been removed/is missing from module 'feature-debug'"
-      },
-      {
-        "severity": "error",
-        "type": "MISSING_CONTRACT_LAYER",
-        "module": "feature-debug",
-        "message": "Breaking Change: Folder layer 'data' has been removed/is missing from module 'feature-debug'"
-      },
-      {
-        "severity": "warning",
-        "type": "MISSING_STATE_REPRESENTATION",
-        "module": "feature-debug",
-        "message": "Architectural anomaly: No matching state modeling structures declared inside module 'feature-debug'"
-      }
-    ]
+    "status": "UNKNOWN",
+    "findings": []
   },
   "maturity": [],
   "components": {
@@ -180,58 +59,345 @@ window.dashboardData = {
   "architecturalMemory": [],
   "recommendations": [
     {
-      "priority": "HIGH",
-      "icon": "🛡️",
-      "title": "Remediate 1 Dependency Guard Violations",
-      "description": "Review structural contracts inside modules to remove illegal presentation imports or database leakage directly."
+      "priority": "LOW",
+      "icon": "🌟",
+      "title": "Maintain current architectural cleanliness",
+      "description": "Your project is in pristine compliance state. Continue documenting ADRs and monitoring Component Registry usage matches."
     }
   ],
   "scoreHistory": [
     {
-      "version": "v0.1.0-beta",
-      "score": 65,
-      "date": "2026-06-11"
+      "version": "0.1.0-beta",
+      "date": "2026-06-11",
+      "score": 45,
+      "errors": 22,
+      "warnings": 15
     },
     {
-      "version": "v0.3.0-beta",
-      "score": 78,
-      "date": "2026-06-11"
+      "version": "0.3.0-beta",
+      "date": "2026-06-11",
+      "score": 58,
+      "errors": 12,
+      "warnings": 8
     },
     {
-      "version": "v0.5.0-beta",
-      "score": 86,
-      "date": "2026-06-12"
+      "version": "0.6.0-beta",
+      "date": "2026-06-12",
+      "score": 72,
+      "errors": 5,
+      "warnings": 10
     },
     {
-      "version": "v0.6.0-beta",
-      "score": 92,
-      "date": "2026-06-12"
+      "version": "0.8.0-beta",
+      "date": "2026-06-13",
+      "score": 88,
+      "errors": 0,
+      "warnings": 4
     },
     {
-      "version": "v1.1.0-wc",
-      "score": 100,
-      "date": "2026-06-14"
+      "version": "0.9.1-beta",
+      "date": "2026-06-13",
+      "score": 96,
+      "errors": 0,
+      "warnings": 1
     }
   ],
   "registry": {
-    "modules": {}
+    "registryVersion": "1.0.0",
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "modules": {
+      "feature-launcher": {
+        "maturity": "STABLE",
+        "createdAt": "2026-06-11",
+        "lastAudit": "2026-06-13",
+        "owner": "Android Launcher Team",
+        "status": "ACTIVE",
+        "description": "Responsável pelo mostrador circular principal do relógio e widget faces."
+      },
+      "feature-drawer": {
+        "maturity": "STABLE",
+        "createdAt": "2026-06-11",
+        "lastAudit": "2026-06-13",
+        "owner": "Android UX Team",
+        "status": "ACTIVE",
+        "description": "Sistema de gaveta de aplicativos com rolagem circular otimizada."
+      },
+      "feature-notifications": {
+        "maturity": "STABLE",
+        "createdAt": "2026-06-11",
+        "lastAudit": "2026-06-13",
+        "owner": "Notification & Comms Team",
+        "status": "ACTIVE",
+        "description": "Notification Center dinâmico integrado às permissões e UseCases simulados."
+      },
+      "feature-media": {
+        "maturity": "MIGRATION",
+        "createdAt": "2026-06-12",
+        "lastAudit": "2026-06-13",
+        "owner": "Media Services Team",
+        "status": "ACTIVE",
+        "description": "Controle de mídia Wear OS com gestures e ripple feedback háptico."
+      },
+      "feature-settings": {
+        "maturity": "PROTECTED",
+        "createdAt": "2026-06-11",
+        "lastAudit": "2026-06-13",
+        "owner": "Core Security Team",
+        "status": "ACTIVE",
+        "description": "Painel de configurações gerais de sistema Wear OS regulado sob a ADR-004."
+      },
+      "feature-sensors": {
+        "maturity": "LEGACY",
+        "createdAt": "2026-06-11",
+        "lastAudit": "2026-06-13",
+        "owner": "Sensor Integration Team",
+        "status": "ACTIVE",
+        "description": "Integração de pedômetro e batimentos cardíacos com as APIs de firmware real."
+      },
+      "feature-debug": {
+        "maturity": "PROTECTED",
+        "createdAt": "2026-06-12",
+        "lastAudit": "2026-06-13",
+        "owner": "QA & Simulation Team",
+        "status": "ACTIVE",
+        "description": "Painel exclusivo para injeção de estados fakes e simulação de sensores."
+      }
+    }
   },
   "technicalDebt": {
-    "technicalDebt": {}
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "technicalDebt": {
+      "feature-notifications": [
+        {
+          "id": "DEBT-001",
+          "description": "Legacy manual state subscription instead of collectAsStateWithLifecycle.",
+          "priority": "HIGH",
+          "severity": "MAJOR",
+          "createdAt": "2026-06-11",
+          "owner": "Notification & Comms Team"
+        },
+        {
+          "id": "DEBT-002",
+          "description": "Legacy navigation routes defined inside UI instead of serialization keys.",
+          "priority": "MEDIUM",
+          "severity": "MINOR",
+          "createdAt": "2026-06-11",
+          "owner": "Notification & Comms Team"
+        }
+      ],
+      "feature-sensors": [
+        {
+          "id": "DEBT-003",
+          "description": "Direct sensors binding on platform API instead of clean Domain UseCase abstraction.",
+          "priority": "CRITICAL",
+          "severity": "CRITICAL",
+          "createdAt": "2026-06-11",
+          "owner": "Sensor Integration Team"
+        }
+      ],
+      "feature-media": [
+        {
+          "id": "DEBT-004",
+          "description": "Missing custom Robolectric unit tests for circular overlay widgets gestures.",
+          "priority": "MEDIUM",
+          "severity": "MINOR",
+          "createdAt": "2026-06-12",
+          "owner": "Media Services Team"
+        }
+      ]
+    }
   },
   "roadmap": {
-    "roadmap": {}
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "roadmap": {
+      "feature-settings": {
+        "currentMaturity": "PROTECTED",
+        "targetMaturity": "PROTECTED",
+        "status": "COMPLETED",
+        "quarter": "Q2-2026",
+        "notes": "Desacoplamento absoluto completo e cobertura de testes visuais assegurada."
+      },
+      "feature-launcher": {
+        "currentMaturity": "STABLE",
+        "targetMaturity": "PROTECTED",
+        "status": "IN_PROGRESS",
+        "quarter": "Q2-2026",
+        "notes": "Migração em andamento para a proteção máxima contra desvios de imports e insets circulares."
+      },
+      "feature-drawer": {
+        "currentMaturity": "STABLE",
+        "targetMaturity": "STABLE",
+        "status": "COMPLETED",
+        "quarter": "Q2-2026",
+        "notes": "Modularização modularizada e estabilizada de rolagem de listagens Circular Honeycomb."
+      },
+      "feature-notifications": {
+        "currentMaturity": "STABLE",
+        "targetMaturity": "PROTECTED",
+        "status": "PLANNED",
+        "quarter": "Q3-2026",
+        "notes": "Planejando substituição de subsrições manuais por UI StateFlows coletados de forma segura."
+      },
+      "feature-media": {
+        "currentMaturity": "MIGRATION",
+        "targetMaturity": "STABLE",
+        "status": "IN_PROGRESS",
+        "quarter": "Q2-2026",
+        "notes": "Finalização do player dinâmico com ripples e mocks de rádio do hardware Wear OS."
+      },
+      "feature-sensors": {
+        "currentMaturity": "LEGACY",
+        "targetMaturity": "STABLE",
+        "status": "PLANNED",
+        "quarter": "Q3-2026",
+        "notes": "Re-arquitetura completa de acoplamentos físicos de hardware do relógio substituindo por mappers de UseCase puros."
+      },
+      "feature-debug": {
+        "currentMaturity": "PROTECTED",
+        "targetMaturity": "PROTECTED",
+        "status": "COMPLETED",
+        "quarter": "Q2-2026",
+        "notes": "Garantida blindagem contra vazamento de simuladores e mocks em builds produtivas de mercado."
+      }
+    }
   },
   "activeRules": {
-    "activeRules": []
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "activeRules": [
+      {
+        "id": "RULE-001",
+        "name": "Strict Layer Coupling Blocking",
+        "description": "Impede importação de Repositories ou DataSources diretamente na camada de UI.",
+        "severity": "ERROR",
+        "createdAt": "2026-06-11"
+      },
+      {
+        "id": "RULE-002",
+        "name": "No Cross-Feature Dependence",
+        "description": "Proíbe dependência física direta de compilação entre dois módulos de feature.",
+        "severity": "ERROR",
+        "createdAt": "2026-06-11"
+      },
+      {
+        "id": "RULE-003",
+        "name": "Circular Safe Area Enforcement",
+        "description": "Força uso de componentes que calculam recortes de tela circular (API 26).",
+        "severity": "WARNING",
+        "createdAt": "2026-06-12"
+      },
+      {
+        "id": "RULE-004",
+        "name": "Minimum Touch Target Density",
+        "description": "Engloba detecção de botões ou elementos com dimensões menores de 48dp.",
+        "severity": "ERROR",
+        "createdAt": "2026-06-12"
+      },
+      {
+        "id": "RULE-005",
+        "name": "Required ViewModel Suffix Pattern",
+        "description": "Obriga que classes sob o pacote /vm terminem estritamente com o sufixo 'ViewModel'.",
+        "severity": "ERROR",
+        "createdAt": "2026-06-13"
+      }
+    ]
   },
   "deprecatedRules": {
-    "deprecatedRules": []
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "deprecatedRules": [
+      {
+        "id": "LEGACY-RULE-101",
+        "name": "Single View Navigation Block",
+        "description": "Impedia rotas com parâmetros compostos no Wear OS antigo.",
+        "deprecatedAt": "2026-06-12",
+        "reason": "Substituído utilizando chaves serializáveis completas e type-safe navigation em Kotlin.",
+        "replacedBy": "RULE-002"
+      }
+    ]
   },
   "ruleHistory": {
-    "ruleHistory": []
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "ruleHistory": [
+      {
+        "date": "2026-06-11",
+        "ruleId": "RULE-001",
+        "action": "CREATED",
+        "details": "Regra inicial contra vazamento de persistência de dados para o Compose Canvas."
+      },
+      {
+        "date": "2026-06-11",
+        "ruleId": "RULE-002",
+        "action": "CREATED",
+        "details": "Regra de acoplamento inter-features ativada sob contratos estritamente rígidos."
+      },
+      {
+        "date": "2026-06-12",
+        "ruleId": "LEGACY-RULE-101",
+        "action": "DEPRECATED",
+        "details": "Depreciação de bloqueios antigos de navegação."
+      },
+      {
+        "date": "2026-06-12",
+        "ruleId": "RULE-003",
+        "action": "CREATED",
+        "details": "Validadores circulares visando displays de reformatagem de insets adicionados ao layout."
+      },
+      {
+        "date": "2026-06-12",
+        "ruleId": "RULE-004",
+        "action": "CREATED",
+        "details": "Ativação de barreiras de conferência de tamanho físico clicável mínimo de componentes."
+      },
+      {
+        "date": "2026-06-13",
+        "ruleId": "RULE-005",
+        "action": "CREATED",
+        "details": "Inclusão estrita do padrão nominal para classes da ViewModel."
+      }
+    ]
   },
   "snapshotIndex": {
-    "snapshots": []
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "snapshots": [
+      {
+        "version": "v0.5.0",
+        "date": "2026-06-11",
+        "path": "snapshots/v0.5.0/",
+        "checksum": "sha256-abc123xyz",
+        "status": "ARCHIVED",
+        "comments": "Marco inicial do sistema de modularização."
+      },
+      {
+        "version": "v0.6.0",
+        "date": "2026-06-12",
+        "path": "snapshots/v0.6.0/",
+        "checksum": "sha256-def456uvw",
+        "status": "ARCHIVED",
+        "comments": "Implementação do sistema central de notificações e controle real."
+      },
+      {
+        "version": "v0.7.0",
+        "date": "2026-06-12",
+        "path": "snapshots/v0.7.0/",
+        "checksum": "sha256-ghi789rst",
+        "status": "ARCHIVED",
+        "comments": "Migração completa das permissões para o sistema unificado."
+      },
+      {
+        "version": "v0.8.0",
+        "date": "2026-06-13",
+        "path": "snapshots/v0.8.0/",
+        "checksum": "sha256-jkl012opq",
+        "status": "ARCHIVED",
+        "comments": "Homologação do Dashboard interativo de qualidade."
+      },
+      {
+        "version": "v0.9.0",
+        "date": "2026-06-13",
+        "path": "snapshots/v0.9.0/",
+        "checksum": "sha256-mno345lmn",
+        "status": "ARCHIVED",
+        "comments": "Separação física completa do ecossistema de memória."
+      }
+    ]
   }
 };

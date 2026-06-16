@@ -1,0 +1,83 @@
+name: Release Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Locate Latest Release Buffer
+        id: buffer
+        run: |
+          LATEST=$(ls -1 release-buffer | sort -V | tail -n 1)
+
+          echo "version_dir=release-buffer/$LATEST" >> $GITHUB_OUTPUT
+          echo "version_name=$LATEST" >> $GITHUB_OUTPUT
+
+      - name: Read Version Metadata
+        id: version
+        run: |
+          VERSION_FILE="${{ steps.buffer.outputs.version_dir }}/VERSION.json"
+
+          VERSION_NAME=$(python3 -c "import json;print(json.load(open('$VERSION_FILE'))['versionName'])")
+          VERSION_CODE=$(python3 -c "import json;print(json.load(open('$VERSION_FILE'))['versionCode'])")
+
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+
+      - name: Create Tag If Missing
+        run: |
+          TAG="v${{ steps.version.outputs.version_name }}"
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag already exists."
+          else
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version_name }}
+          name: v${{ steps.version.outputs.version_name }}
+          body_path: ${{ steps.buffer.outputs.version_dir }}/CHANGELOG.md
+          files: |
+            ${{ steps.buffer.outputs.version_dir }}/app.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate update.json
+        run: |
+          cat > update.json << EOF
+          {
+            "versionName": "${{ steps.version.outputs.version_name }}",
+            "versionCode": ${{ steps.version.outputs.version_code }},
+            "channel": "beta",
+            "releaseUrl": "https://github.com/lucaspietroemail-star/core-updates/releases/tag/v${{ steps.version.outputs.version_name }}"
+          }
+          EOF
+
+      - name: Commit update.json
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add update.json
+
+          git diff --cached --quiet && exit 0
+
+          git commit -m "Update update.json"
+          git push

@@ -256,7 +256,7 @@
                         <div class="chart-header" style="margin: 0; color: #10b981;">📄 wear-core-dashboard-audit-report.json</div>
                         <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0.25rem 0 0 0;">Continuous diagnostic assessment of codebase constraints, file boundaries, memory ceilings, and accessibility.</p>
                     </div>
-                    <a href="../../wear-core-dashboard-audit-report.json" target="_blank" class="badge approved" style="padding: 0.6rem 1.2rem; cursor: pointer; text-decoration: none; display: inline-block; background: #10b981; font-weight: bold;">
+                    <a href="../exports/wear-core-dashboard-audit-report.json" target="_blank" class="badge approved" style="padding: 0.6rem 1.2rem; cursor: pointer; text-decoration: none; display: inline-block; background: #10b981; font-weight: bold;">
                         📥 Download Audit Report
                     </a>
                 </div>
@@ -446,7 +446,7 @@
                     <strong>LLM Context Integration Instructions:</strong> This page exposes a standardized snapshot schema representing the exact active status metrics, modules composition, build criteria, and sprint directions of Wear Core. External LLM systems can ingest this structure directly via GET / wear-core-state-export.json in the file workspace.
                 </p>
                 <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                    <a href="../../wear-core-state-export.json" target="_blank" class="badge approved" style="padding: 0.5rem 1rem; cursor: pointer; text-decoration: none; display: inline-block;">
+                    <a href="../exports/wear-core-state-export.json" target="_blank" class="badge approved" style="padding: 0.5rem 1rem; cursor: pointer; text-decoration: none; display: inline-block;">
                         📥 Download state-export.json
                     </a>
                     <button onclick="navigator.clipboard.writeText(document.getElementById('state-raw-view').textContent); alert('State JSON copied to clipboard!');" class="badge approved" style="border: none; padding: 0.5rem 1rem; cursor: pointer; background: #3b82f6;">
@@ -475,7 +475,7 @@
                 
                 <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 1.25rem;">
                     <div style="display: flex; gap: 1rem;">
-                        <a href="../../wear-core-knowledge-export.json" target="_blank" class="badge approved" style="padding: 0.5rem 1rem; cursor: pointer; text-decoration: none; display: inline-block; background: #2563eb;">
+                        <a href="../exports/wear-core-knowledge-export.json" target="_blank" class="badge approved" style="padding: 0.5rem 1rem; cursor: pointer; text-decoration: none; display: inline-block; background: #2563eb;">
                             📥 Download latest knowledge-export.json
                         </a>
                         <button onclick="navigator.clipboard.writeText(document.getElementById('knowledge-raw-view').textContent); alert('Knowledge JSON copied to clipboard!');" class="badge approved" style="border: none; padding: 0.5rem 1rem; cursor: pointer; background: #64748b;">
@@ -526,7 +526,7 @@
                     </div>
 
                     <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                        <a href="../../exports/ai-index.json" target="_blank" class="badge approved" style="padding: 0.5rem 0.75rem; background: #5b21b6; text-decoration: none;">📥 Download Index</a>
+                        <a href="../exports/ai-index.json" target="_blank" class="badge approved" style="padding: 0.5rem 0.75rem; background: #5b21b6; text-decoration: none;">📥 Download Index</a>
                         <button onclick="shareLink('/exports/ai-index.json')" class="badge approved" style="padding: 0.5rem 0.75rem; background: #4d7c0f; border: none; cursor: pointer;">📋 Copy URL</button>
                     </div>
                 </div>
@@ -542,14 +542,14 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
                             <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">🖥️ AI-Friendly Page</span>
                             <div style="display: flex; gap: 0.5rem;">
-                                <a href="../../project-state/index.html" target="_blank" class="badge approved" style="background:#0284c7; text-decoration:none;">🔗 Open</a>
+                                <a href="../project-state/index.html" target="_blank" class="badge approved" style="background:#0284c7; text-decoration:none;">🔗 Open</a>
                                 <button onclick="shareLink('/project-state/index.html')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
                             </div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
                             <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">📄 Output Payload JSON</span>
                             <div style="display: flex; gap: 0.5rem;">
-                                <a href="../../exports/wear-core-state-export.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
+                                <a href="../exports/wear-core-state-export.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
                                 <button onclick="shareLink('/exports/wear-core-state-export.json')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
                             </div>
                         </div>
@@ -569,14 +569,14 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
                             <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">🖥️ AI-Friendly Page</span>
                             <div style="display: flex; gap: 0.5rem;">
-                                <a href="../../project-knowledge/index.html" target="_blank" class="badge approved" style="background:#7c3aed; text-decoration:none;">🔗 Open</a>
+                                <a href="../project-knowledge/index.html" target="_blank" class="badge approved" style="background:#7c3aed; text-decoration:none;">🔗 Open</a>
                                 <button onclick="shareLink('/project-knowledge/index.html')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
                             </div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
                             <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">📄 Output Payload JSON</span>
                             <div style="display: flex; gap: 0.5rem;">
-                                <a href="../../exports/wear-core-knowledge-export.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
+                                <a href="../exports/wear-core-knowledge-export.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
                                 <button onclick="shareLink('/exports/wear-core-knowledge-export.json')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
                             </div>
                         </div>
@@ -594,14 +594,14 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
                             <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">🖥️ AI-Friendly Page</span>
                             <div style="display: flex; gap: 0.5rem;">
-                                <a href="../../project-focus/index.html" target="_blank" class="badge approved" style="background:#d97706; text-decoration:none;">🔗 Open</a>
+                                <a href="../project-focus/index.html" target="_blank" class="badge approved" style="background:#d97706; text-decoration:none;">🔗 Open</a>
                                 <button onclick="shareLink('/project-focus/index.html')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
                             </div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
                             <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">📄 Output Payload JSON</span>
                             <div style="display: flex; gap: 0.5rem;">
-                                <a href="../../exports/wear-core-current-focus.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
+                                <a href="../exports/wear-core-current-focus.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
                                 <button onclick="shareLink('/exports/wear-core-current-focus.json')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
                             </div>
                         </div>
@@ -621,14 +621,14 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
                             <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">🖥️ AI-Friendly Page</span>
                             <div style="display: flex; gap: 0.5rem;">
-                                <a href="../../project-actions/index.html" target="_blank" class="badge approved" style="background:#db2777; text-decoration:none;">🔗 Open</a>
+                                <a href="../project-actions/index.html" target="_blank" class="badge approved" style="background:#db2777; text-decoration:none;">🔗 Open</a>
                                 <button onclick="shareLink('/project-actions/index.html')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
                             </div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
                             <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">📄 Output Payload JSON</span>
                             <div style="display: flex; gap: 0.5rem;">
-                                <a href="../../exports/wear-core-ai-actions.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
+                                <a href="../exports/wear-core-ai-actions.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
                                 <button onclick="shareLink('/exports/wear-core-ai-actions.json')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
                             </div>
                         </div>

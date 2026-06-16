@@ -1,0 +1,74 @@
+name: Architecture Intelligence Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-architecture:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Architecture Lint
+        run: node ais/scripts/architecture-lint.js
+
+      - name: Execute Architectural Auto-Fix
+        if: always()
+        run: node ais/scripts/auto-fix.js
+
+      - name: Run Dependency Guard
+        if: always()
+        run: node ais/scripts/dependency-guard.js
+
+      - name: Run Breaking Change Detector
+        if: always()
+        run: node ais/scripts/breaking-change-detector.js
+
+      - name: Run Self-Evolution Engine
+        if: always()
+        run: node ais/scripts/self-evolution.js
+
+      - name: Evaluate Quality Gate
+        if: always()
+        run: node ais/scripts/quality-gate.js
+
+      - name: Generate Executive Markdown Report
+        if: always()
+        run: node ais/scripts/generate-report.js
+
+      - name: Generate Visual Architecture Dashboard
+        if: always()
+        run: node ais/scripts/generate-dashboard.js
+
+      - name: Update AI Context Exports
+        if: always()
+        run: node ais/scripts/ai-context-exporter.js || true
+
+      - name: Upload Quality Reports and Dashboard
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: architecture-intelligence-reports-and-dashboard
+          path: |
+            ais/reports/
+            ais/dashboard/
+            ais/exports/dashboard-export.json
+            ais/governance/generator-rules.json
+
+      - name: Evaluate Final Build Target
+        if: always()
+        run: node ais/scripts/fail-build.js

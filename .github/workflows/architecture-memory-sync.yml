@@ -1,0 +1,79 @@
+name: Architecture Memory Sync Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  sync-memory:
+    name: Sync Architecture Memory to Separate Registry
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Core App (Main Repository)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout Core App Memory Registry
+        uses: actions/checkout@v4
+        with:
+          repository: lucaspietroemail-star/core-app-memory
+          token: ${{ secrets.AIS_SYNC_TOKEN }}
+          path: core-app-memory-repo
+          fetch-depth: 0
+
+      - name: Synchronize Architectural Files and Folders
+        run: |
+          echo "=== [1/2] Sincronizando Estrutura da Memoria ==="
+          TARGET_DIR="core-app-memory-repo"
+          
+          # Copiar de forma limpa e direta tudo do diretorio local AIS/ ou ais/ para core-app-memory-repo/
+          if [ -d "AIS" ]; then
+            cp -r AIS/* "$TARGET_DIR/"
+            echo "✓ Todo o conteudo de AIS foi sincronizado para o repositorio remoto."
+          elif [ -d "ais" ]; then
+            cp -r ais/* "$TARGET_DIR/"
+            echo "✓ Todo o conteudo de ais foi sincronizado para o repositorio remoto."
+          else
+            echo "🚨 Diretorio de memoria AIS ou ais nao encontrado localmente."
+            exit 1
+          fi
+
+      - name: Update Last Updated Timestamp in memory-version.json
+        run: |
+          echo "=== [2/2] Atualizando Metadados de Versao ==="
+          TARGET_DIR="core-app-memory-repo"
+          
+          if [ -f "$TARGET_DIR/memory-version.json" ]; then
+            CURRENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            sed -i 's/"lastUpdated": "[^"]*"/"lastUpdated": "'"$CURRENT_TIME"'"/g' "$TARGET_DIR/memory-version.json"
+            echo "✓ memory-version.json lastUpdated atualizado para: $CURRENT_TIME"
+          else
+            echo "i Criando memory-version.json como metadados de sincronizacao de memoria..."
+            echo "{\"lastUpdated\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"}" > "$TARGET_DIR/memory-version.json"
+          fi
+
+      - name: Commit and Push to Memory Registry
+        run: |
+          echo "=== [4/5] Executando Push do Incremento de Memoria ==="
+          # Pegar o commit hash origem do projeto principal para rastreabilidade
+          ORIGIN_COMMIT=$(git rev-parse --short HEAD)
+          echo "Hash de commit origem: $ORIGIN_COMMIT"
+
+          cd core-app-memory-repo
+          git config user.name "Architecture Intelligence System"
+          git config user.email "actions@github.com"
+          
+          git add .
+          
+          # Verificar modulo de alteracao real
+          if git diff-index --quiet HEAD --; then
+            echo "=== [5/5] Nenhuma mudanca detectada na memoria arquitetada. Execucao encerrada sem push. ==="
+          else
+            echo "Mudancas detectadas. Realizando commit..."
+            git commit -m "chore(memory): auto-sync architecture metrics from core-app@$ORIGIN_COMMIT [skip ci]"
+            git push origin HEAD
+            echo "=== [5/5] Sincronizacao da memoria concluida e consolidada com sucesso! ==="
+          fi

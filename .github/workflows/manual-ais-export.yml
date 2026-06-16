@@ -1,0 +1,90 @@
+name: Manual AIS Export to Memory Repository
+
+on:
+  workflow_dispatch:
+
+jobs:
+  export-ais:
+    name: Manual AIS Directory Export
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate Latest AIS Intelligence
+        run: |
+          # Use npx to run with cross-env as established in runtime diagnostics
+          npx -y cross-env node ais/scripts/generate-dashboard.js
+
+      - name: Checkout Memory Repository
+        uses: actions/checkout@v4
+        with:
+          repository: lucaspietroemail-star/core-app-memory
+          token: ${{ secrets.AIS_SYNC_TOKEN }}
+          path: memory-repo
+          fetch-depth: 0
+
+      - name: Validate AIS Structure
+        run: |
+          echo "=== Auditing AIS Directory Structure ==="
+          MOD_DIRS=("aggregate" "reports" "exports" "history" "snapshots" "governance" "memory" "audit")
+          STRICT_FAIL=false
+          
+          for d in "${MOD_DIRS[@]}"; do
+            if [ -d "ais/$d" ]; then
+              echo "✓ Found: ais/$d"
+              # Count files inside
+              count=$(find "ais/$d" -type f | wc -l)
+              echo "  Files: $count"
+            else
+              echo "⚠ Missing: ais/$d"
+            fi
+          done
+          
+          if [ ! -d ".github/workflows" ]; then
+             echo "⚠ Missing: .github/workflows in source core."
+          else
+             echo "✓ Found: .github/workflows"
+          fi
+
+      - name: Synchronize to Memory Repository
+        run: |
+          TARGET="memory-repo"
+          echo "Cloning ais contents into memory-repo..."
+          # Clean copy of ais/* to memory-repo root
+          cp -rv ais/* "$TARGET/"
+          
+          # Maintain workflows in memory-repo if they exist
+          if [ -d ".github/workflows" ]; then
+            mkdir -p "$TARGET/.github/workflows"
+            cp -rv .github/workflows/* "$TARGET/.github/workflows/"
+          fi
+
+      - name: Push Manual AIS Export
+        run: |
+          cd memory-repo
+          git config user.name "AIS Manual Exporter"
+          git config user.email "actions@github.com"
+          
+          git add .
+          
+          if git diff-index --quiet HEAD --; then
+            echo "Success: Remote repository already up to date with latest AIS state."
+          else
+            FILES_CHANGED=$(git status --porcelain | wc -l)
+            echo "Changes detected: $FILES_CHANGED files."
+            
+            git commit -m "manual(ais): force export of ais intelligence and structure [audit:verified]"
+            git push origin HEAD
+            
+            HASH=$(git rev-parse HEAD)
+            echo "Export completed successfully. Commit Hash: $HASH"
+          fi
