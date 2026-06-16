@@ -178,7 +178,10 @@ function generateDashboardData() {
     activeRules: activeRules,
     deprecatedRules: deprecatedRules,
     ruleHistory: ruleHistory,
-    snapshotIndex: snapshotIndex
+    snapshotIndex: snapshotIndex,
+    
+    // Feature: Intelligence Archive System (Sync from wear-core-archive)
+    wearCoreArchive: require('./combinenet').getCombinedState().wearCoreArchive || {}
   };
 
   // Write files

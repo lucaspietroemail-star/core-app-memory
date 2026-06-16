@@ -1,7 +1,7 @@
 {
-  "auditTimestamp": "2026-06-16T02:35:06.811Z",
+  "auditTimestamp": "2026-06-16T10:47:10.142Z",
   "scannedMetadata": {
-    "totalFiles": 385,
+    "totalFiles": 386,
     "kotlinFiles": 197,
     "gradleFiles": 17,
     "missingTestTags": 10,
@@ -33,6 +33,14 @@
       "cause": "New modules added without initializing formal contracts structures.",
       "impact": "Makes module behavior completely untraceable for other features, as well as AI diagnostic crawlers.",
       "priority": "MEDIUM"
+    },
+    {
+      "id": "ISSUE-pipeline-empty-data",
+      "title": "Null status metrics found inside export JSON endpoints",
+      "description": "State and Knowledge exports contain undefined properties or un-populated metric nodes upon creation.",
+      "cause": "Mismatch in timeline or metric collector execution sequences.",
+      "impact": "Breaks dashboard visuals, leaving empty graphs or incomplete indicators.",
+      "priority": "HIGH"
     }
   ],
   "corrections": [
@@ -74,6 +82,15 @@
       ],
       "complexity": "MEDIUM",
       "benefitExpected": "Guarantees 100% observability, allowing human developers and AI crawlers to scan component APIs dynamically."
+    },
+    {
+      "issueId": "ISSUE-pipeline-empty-data",
+      "suggestedCorrection": "Cascade execution sequences correctly, forcing Wear Core Archive scanning ahead of final Combined-State indexing.",
+      "filesInvolved": [
+        "/ais/scripts/generate-dashboard.js"
+      ],
+      "complexity": "LOW",
+      "benefitExpected": "Guarantees data persistence integrity across cold-loads, localhost and production environments."
     }
   ],
   "improvements": {

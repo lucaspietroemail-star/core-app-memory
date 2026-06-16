@@ -7,10 +7,10 @@ const EXPORTS_DIR = path.join(ROOT_DIR, 'ais', 'exports');
 
 const INPUT_PATHS = {
   version: path.join(ROOT_DIR, 'VERSION.json'),
-  currentFocus: path.join(ROOT_DIR, 'wear-core-current-focus.json'),
-  aiActions: path.join(ROOT_DIR, 'wear-core-ai-actions.json'),
-  stateExport: path.join(ROOT_DIR, 'wear-core-state-export.json'),
-  knowledgeExport: path.join(ROOT_DIR, 'wear-core-knowledge-export.json')
+  currentFocus: path.join(EXPORTS_DIR, 'wear-core-current-focus.json'),
+  aiActions: path.join(EXPORTS_DIR, 'wear-core-ai-actions.json'),
+  stateExport: path.join(EXPORTS_DIR, 'wear-core-state-export.json'),
+  knowledgeExport: path.join(EXPORTS_DIR, 'wear-core-knowledge-export.json')
 };
 
 // Ensure folders exist

@@ -6,13 +6,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   links.forEach(link => {
     link.addEventListener('click', (e) => {
+      // Use currentTarget to ensure we always get the <a> element even if an emoji inside was clicked
+      const clickedLink = e.currentTarget;
+      
       links.forEach(l => l.classList.remove('active'));
       panes.forEach(p => p.classList.remove('active'));
       
-      const targetId = e.target.getAttribute('data-target');
-      e.target.classList.add('active');
-      document.getElementById(targetId).classList.add('active');
-      pageTitle.textContent = e.target.textContent.replace(/[^\w\s]/gi, '').trim();
+      const targetId = clickedLink.getAttribute('data-target');
+      clickedLink.classList.add('active');
+      
+      const targetPane = document.getElementById(targetId);
+      if (targetPane) {
+          targetPane.classList.add('active');
+      }
+      
+      pageTitle.textContent = clickedLink.textContent.replace(/[^\w\s]/gi, '').trim();
     });
   });
 

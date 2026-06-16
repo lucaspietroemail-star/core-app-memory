@@ -24,6 +24,23 @@ jobs:
           path: core-app-memory-repo
           fetch-depth: 0
 
+      - name: Set up Node.js for Data Generation
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Execute AIS Intelligence Engine (Runtime Data Generation)
+        run: |
+          echo "=== Generating fresh architecture data before sync ==="
+          node ais/scripts/architecture-lint.js || true
+          node ais/scripts/auto-fix.js || true
+          node ais/scripts/dependency-guard.js || true
+          node ais/scripts/breaking-change-detector.js || true
+          node ais/scripts/quality-gate.js || true
+          node ais/scripts/generate-dashboard.js
+          node ais/scripts/ai-context-exporter.js || true
+          echo "✓ All AIS artifacts generated and ready for sync."
+
       - name: Synchronize Architectural Files and Folders
         run: |
           echo "=== [1/2] Sincronizando Estrutura da Memoria ==="
