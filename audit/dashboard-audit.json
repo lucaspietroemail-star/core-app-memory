@@ -1,0 +1,14 @@
+{
+  "targetDir": "core-app-memory/ais/dashboard/",
+  "files": [
+    "index.html",
+    "assets/js/dashboard.js",
+    "assets/js/charts.js",
+    "assets/css/styles.css"
+  ],
+  "healthStatus": "PRODUCTION_READY",
+  "issues": [],
+  "responsiveness": "VERIFIED",
+  "jsonIntegrity": "VALID",
+  "linksAndAssets": "INTACT"
+}

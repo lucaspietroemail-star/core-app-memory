@@ -1,0 +1,39 @@
+{
+  "history": [
+    {
+      "version": "0.1.0-beta",
+      "date": "2026-06-11",
+      "score": 45,
+      "errors": 22,
+      "warnings": 15
+    },
+    {
+      "version": "0.3.0-beta",
+      "date": "2026-06-11",
+      "score": 58,
+      "errors": 12,
+      "warnings": 8
+    },
+    {
+      "version": "0.6.0-beta",
+      "date": "2026-06-12",
+      "score": 72,
+      "errors": 5,
+      "warnings": 10
+    },
+    {
+      "version": "0.8.0-beta",
+      "date": "2026-06-13",
+      "score": 88,
+      "errors": 0,
+      "warnings": 4
+    },
+    {
+      "version": "0.9.1-beta",
+      "date": "2026-06-13",
+      "score": 96,
+      "errors": 0,
+      "warnings": 1
+    }
+  ]
+}

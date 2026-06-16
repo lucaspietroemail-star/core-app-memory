@@ -1,0 +1,63 @@
+{
+  "contractVersion": "1.0.0",
+  "lastUpdated": "2026-06-12T22:20:00Z",
+  "layers": {
+    "moduleFolders": ["ui", "vm", "state", "domain", "data", "di"],
+    "pureBusinessLogic": ["domain"],
+    "frameworkDecorators": ["di", "data"],
+    "reactiveHolders": ["state"],
+    "presentationLayer": ["ui", "vm"]
+  },
+  "mandatoryComponents": [
+    "State",
+    "Action",
+    "Event",
+    "ViewModel",
+    "Repository",
+    "UseCase"
+  ],
+  "layerRules": [
+    {
+      "layer": "ui",
+      "forbiddenImports": [
+        "Repository",
+        "DataSource",
+        "Database",
+        "Dao",
+        "Retrofit",
+        "OkHttpClient",
+        "SharedPreferences"
+      ],
+      "forbiddenDirectories": ["data", "db", "network"]
+    },
+    {
+      "layer": "vm",
+      "forbiddenImports": [
+        "androidx.compose",
+        "androidx.wear.compose",
+        "DataSource",
+        "Database",
+        "Dao"
+      ]
+    },
+    {
+      "layer": "domain",
+      "forbiddenImports": [
+        "android.",
+        "androidx.",
+        "com.google.firebase",
+        "retrofit2",
+        "okhttp3",
+        "androidx.room"
+      ]
+    },
+    {
+      "layer": "state",
+      "forbiddenImports": [
+        "Repository",
+        "UseCase",
+        "DataSource"
+      ]
+    }
+  ]
+}

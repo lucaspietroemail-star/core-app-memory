@@ -1,0 +1,23 @@
+{
+  "targetDir": "scripts/",
+  "inspectedNodes": [
+    "architecture-lint.js",
+    "dependency-guard.js",
+    "breaking-change-detector.js",
+    "auto-fix.js",
+    "self-evolution.js",
+    "quality-gate.js",
+    "fail-build.js",
+    "generate-report.js"
+  ],
+  "healthStatus": "PRODUCTION_READY",
+  "defectsDetected": [
+    {
+      "script": "auto-fix.js",
+      "issue": "Needs dynamic fallback when JSON schema definition rules change."
+    }
+  ],
+  "dependencies": "STABLE",
+  "circularDependencies": "NONE",
+  "missingImports": "NONE"
+}

@@ -1,0 +1,11 @@
+{
+  "risks": {
+    "feature-launcher": "LOW",
+    "feature-settings": "LOW",
+    "feature-drawer": "LOW",
+    "feature-notifications": "MEDIUM",
+    "feature-media": "MEDIUM",
+    "feature-sensors": "CRITICAL",
+    "feature-debug": "LOW"
+  }
+}

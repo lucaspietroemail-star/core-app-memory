@@ -1,0 +1,83 @@
+{
+  "project": "Wear OS Core System unificado",
+  "created": "2026-06-11T12:00:00Z",
+  "lastUpdated": "2026-06-13T10:41:00Z",
+  "decisions": [
+    {
+      "id": "AD-001",
+      "date": "2026-06-11",
+      "topic": "Wear OS 6 Circular UI Adaptation (API 26)",
+      "description": "Standardized the usage of ScreenScaffold and TransformingLazyColumn to avoid screen cropping on circular watches with 372dp diameter.",
+      "status": "APPROVED",
+      "rationale": "Hardware limit of 372dp diameter cutoffs near extreme corners."
+    },
+    {
+      "id": "AD-002",
+      "date": "2026-06-11",
+      "topic": "Architecture modularity enforcing zero cross-feature dependency",
+      "description": "Enforced strict decoupling of feature modules. Features communicate via Contract System defined inside the core module to prevent circular compilation paths.",
+      "status": "APPROVED",
+      "rationale": "Prevents cyclic project configurations and speeds up Gradle incremental configuration time."
+    },
+    {
+      "id": "AD-003",
+      "date": "2026-06-12",
+      "topic": "Automated APK Background Updates",
+      "description": "Transitioned from browser-launched GitHub release links to direct background download stream with live percentage updates and secure FileProvider hands-off to prevent Wear OS memory overflows.",
+      "status": "APPROVED",
+      "rationale": "Android 8 constraints require sandboxed handoff of package managers via strict content authorities."
+    },
+    {
+      "id": "ADR-0004",
+      "date": "2026-06-12",
+      "topic": "Desacoplamento Estrito da Interface (UI) com a Camada de Dados (Data)",
+      "description": "Toda comunicação entre UI e dados deve obrigatoriamente transitar por ViewModel e UseCase.",
+      "status": "APPROVED",
+      "rationale": "Garante isolamento dos dados de telemetria do Wear OS e permite testes independentes de interface."
+    }
+  ],
+  "historicalViolations": [
+    {
+      "timestamp": "2026-06-11T19:04:00Z",
+      "file": "domain/src/main/java/com/example/domain/usecase/update/DownloadUpdateUseCase.kt",
+      "type": "DOMAIN_DEPENDS_ON_ANDROID_FRAMEWORK",
+      "message": "Unresolved reference 'javax.inject.Inject' in pure JVM Domain layer.",
+      "severity": "error",
+      "fixAction": "Refactored DownloadUpdateUseCase constructor to use Constructor Injection and registered factory provider inside data layer UseCaseModule manually."
+    }
+  ],
+  "correctionsApplied": [
+    {
+      "timestamp": "2026-06-12T15:10:00Z",
+      "ruleId": "STRUCT_DIR_MIGRATION",
+      "action": "Ensure all modules have uniform ui, vm, and state internal package partitions to pass static Architecture Lint rule standard checks automatically.",
+      "affectedModules": ["feature-launcher", "feature-settings"]
+    }
+  ],
+  "detectedPatterns": [
+    {
+      "patternId": "VM_UI_COUPLING",
+      "description": "ViewModel importing UI packages, usually caused by lazy usage of Compose standard colors or icons. ViewModels must rely strictly on domain models or primitive states.",
+      "frequency": "low",
+      "remediation": "Encourage mapped visual UI state resource configurations or ID bindings."
+    },
+    {
+      "patternId": "USE_CASE_CIRCULARITY",
+      "description": "Direct cross-domain boundary coupling between business logic scopes.",
+      "frequency": "very_low",
+      "remediation": "Always pass state actions or merge domain tasks inside single-focused composite view model flows."
+    }
+  ],
+  "learnedRules": [
+    {
+      "ruleId": "RULE-001",
+      "name": "Single source of truth in state",
+      "description": "Actions must mutate UI State solely through flows inside ViewModels. Events must never persist to avoid Wear OS background recycling state mismatch errors."
+    },
+    {
+      "ruleId": "RULE-002",
+      "name": "Circular Screen Boundary Margins",
+      "description": "All lists operating near physical smartwatch edges must wrap under TransformingLazyColumn scroll adjustments or dynamic inner content safe areas."
+    }
+  ]
+}

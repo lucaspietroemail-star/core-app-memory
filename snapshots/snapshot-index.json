@@ -1,0 +1,45 @@
+{
+  "lastUpdated": "2026-06-13T12:00:00Z",
+  "snapshots": [
+    {
+      "version": "v0.5.0",
+      "date": "2026-06-11",
+      "path": "snapshots/v0.5.0/",
+      "checksum": "sha256-abc123xyz",
+      "status": "ARCHIVED",
+      "comments": "Marco inicial do sistema de modularização."
+    },
+    {
+      "version": "v0.6.0",
+      "date": "2026-06-12",
+      "path": "snapshots/v0.6.0/",
+      "checksum": "sha256-def456uvw",
+      "status": "ARCHIVED",
+      "comments": "Implementação do sistema central de notificações e controle real."
+    },
+    {
+      "version": "v0.7.0",
+      "date": "2026-06-12",
+      "path": "snapshots/v0.7.0/",
+      "checksum": "sha256-ghi789rst",
+      "status": "ARCHIVED",
+      "comments": "Migração completa das permissões para o sistema unificado."
+    },
+    {
+      "version": "v0.8.0",
+      "date": "2026-06-13",
+      "path": "snapshots/v0.8.0/",
+      "checksum": "sha256-jkl012opq",
+      "status": "ARCHIVED",
+      "comments": "Homologação do Dashboard interativo de qualidade."
+    },
+    {
+      "version": "v0.9.0",
+      "date": "2026-06-13",
+      "path": "snapshots/v0.9.0/",
+      "checksum": "sha256-mno345lmn",
+      "status": "ARCHIVED",
+      "comments": "Separação física completa do ecossistema de memória."
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "registryVersion": "1.0.0",
+  "lastUpdated": "2026-06-12T22:20:00Z",
+  "components": [
+    {
+      "name": "BaseButton",
+      "package": "com.example.designsystem.components",
+      "description": "Standard high-contrast action button conforming to 48dp target constraints",
+      "version": "1.0.0",
+      "responsibles": ["Senior Android Engineer"],
+      "dependencies": ["androidx.compose.material3.Button"]
+    },
+    {
+      "name": "BaseCard",
+      "package": "com.example.designsystem.components",
+      "description": "Adaptive notification or info container adjusting for circular corners",
+      "version": "1.0.0",
+      "responsibles": ["Senior Android Engineer"],
+      "dependencies": ["androidx.compose.material3.Card"]
+    },
+    {
+      "name": "BaseDialog",
+      "package": "com.example.designsystem.components",
+      "description": "Full-screen alert container optimized for circular watch face boundaries",
+      "version": "1.0.0",
+      "responsibles": ["Senior Android Engineer"],
+      "dependencies": ["androidx.compose.ui.window.Dialog"]
+    },
+    {
+      "name": "BaseList",
+      "package": "com.example.designsystem.components",
+      "description": "Lazy list wrapper ensuring automatic edge-insets correction based on viewport height",
+      "version": "1.1.0",
+      "responsibles": ["Senior Android Engineer"],
+      "dependencies": ["androidx.compose.foundation.lazy.LazyColumn"]
+    },
+    {
+      "name": "BaseScaffold",
+      "package": "com.example.designsystem.components",
+      "description": "Edge-to-edge system wrapper handling safe navigation overlays and battery indicators",
+      "version": "1.2.0",
+      "responsibles": ["Senior Android Engineer"],
+      "dependencies": ["androidx.compose.material3.Scaffold"]
+    },
+    {
+      "name": "BaseTopBar",
+      "package": "com.example.designsystem.components",
+      "description": "Minimal top bar accommodating dynamic circular system clocks and task statuses",
+      "version": "1.0.0",
+      "responsibles": ["Senior Android Engineer"],
+      "dependencies": ["androidx.compose.material3.TopAppBar"]
+    },
+    {
+      "name": "BaseBottomSheet",
+      "package": "com.example.designsystem.components",
+      "description": "Slide-up contextual panel handling micro-interactions",
+      "version": "1.0.0",
+      "responsibles": ["Senior Android Engineer"],
+      "dependencies": ["androidx.compose.material3.ModalBottomSheet"]
+    },
+    {
+      "name": "BaseSwitch",
+      "package": "com.example.designsystem.components",
+      "description": "Standardized lightweight toggle control with material feedback ripple",
+      "version": "1.0.0",
+      "responsibles": ["Senior Android Engineer"],
+      "dependencies": ["androidx.compose.material3.Switch"]
+    },
+    {
+      "name": "BaseSlider",
+      "package": "com.example.designsystem.components",
+      "description": "Touch-safe brightness/volume slider with responsive numeric displays",
+      "version": "1.0.0",
+      "responsibles": ["Senior Android Engineer"],
+      "dependencies": ["androidx.compose.material3.Slider"]
+    },
+    {
+      "name": "BaseLoading",
+      "package": "com.example.designsystem.components",
+      "description": "Dynamic circular sweeping loader indicating active background requests",
+      "version": "1.0.1",
+      "responsibles": ["Senior Android Engineer"],
+      "dependencies": ["androidx.compose.material3.CircularProgressIndicator"]
+    },
+    {
+      "name": "BaseError",
+      "package": "com.example.designsystem.components",
+      "description": "Standard error panel combining feedback icons and dynamic auto-retry buttons",
+      "version": "1.0.0",
+      "responsibles": ["Senior Android Engineer"],
+      "dependencies": ["androidx.compose.material3.TextButton"]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "directory": "history",
+  "description": "Snapshots cronológicos, backups incrementais de pontuação ou rastros históricos de mutações no código.",
+  "files": [
+    {
+      "name": "architecture-score-history.json",
+      "type": "json",
+      "description": "Históricos cronológicos com as pontuações do Quality Gate ao longo das releases."
+    }
+  ]
+}

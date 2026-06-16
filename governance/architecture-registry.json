@@ -1,0 +1,62 @@
+{
+  "registryVersion": "1.0.0",
+  "lastUpdated": "2026-06-13T12:00:00Z",
+  "modules": {
+    "feature-launcher": {
+      "maturity": "STABLE",
+      "createdAt": "2026-06-11",
+      "lastAudit": "2026-06-13",
+      "owner": "Android Launcher Team",
+      "status": "ACTIVE",
+      "description": "Responsável pelo mostrador circular principal do relógio e widget faces."
+    },
+    "feature-drawer": {
+      "maturity": "STABLE",
+      "createdAt": "2026-06-11",
+      "lastAudit": "2026-06-13",
+      "owner": "Android UX Team",
+      "status": "ACTIVE",
+      "description": "Sistema de gaveta de aplicativos com rolagem circular otimizada."
+    },
+    "feature-notifications": {
+      "maturity": "STABLE",
+      "createdAt": "2026-06-11",
+      "lastAudit": "2026-06-13",
+      "owner": "Notification & Comms Team",
+      "status": "ACTIVE",
+      "description": "Notification Center dinâmico integrado às permissões e UseCases simulados."
+    },
+    "feature-media": {
+      "maturity": "MIGRATION",
+      "createdAt": "2026-06-12",
+      "lastAudit": "2026-06-13",
+      "owner": "Media Services Team",
+      "status": "ACTIVE",
+      "description": "Controle de mídia Wear OS com gestures e ripple feedback háptico."
+    },
+    "feature-settings": {
+      "maturity": "PROTECTED",
+      "createdAt": "2026-06-11",
+      "lastAudit": "2026-06-13",
+      "owner": "Core Security Team",
+      "status": "ACTIVE",
+      "description": "Painel de configurações gerais de sistema Wear OS regulado sob a ADR-004."
+    },
+    "feature-sensors": {
+      "maturity": "LEGACY",
+      "createdAt": "2026-06-11",
+      "lastAudit": "2026-06-13",
+      "owner": "Sensor Integration Team",
+      "status": "ACTIVE",
+      "description": "Integração de pedômetro e batimentos cardíacos com as APIs de firmware real."
+    },
+    "feature-debug": {
+      "maturity": "PROTECTED",
+      "createdAt": "2026-06-12",
+      "lastAudit": "2026-06-13",
+      "owner": "QA & Simulation Team",
+      "status": "ACTIVE",
+      "description": "Painel exclusivo para injeção de estados fakes e simulação de sensores."
+    }
+  }
+}

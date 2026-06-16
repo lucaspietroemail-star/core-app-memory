@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "RULE-XXXX",
+  "name": "Strict Layer Invariant Rule Template",
+  "description": "Protects and validates structural layer constraints preventing architectural drift in modules.",
+  "category": "DependencyEnforcement / DirectoryStructure / FileNaming",
+  "severity": "error",
+  "validation": {
+    "targetLayers": ["ui", "vm", "state", "domain", "data", "di"],
+    "forbiddenImports": [
+      "android.graphics",
+      "androidx.compose"
+    ],
+    "mandatoryFileSuffixes": ["ViewModel", "UiState", "Repository"]
+  },
+  "autofix": {
+    "enabled": true,
+    "actions": {
+      "createMissingDirectories": true,
+      "scaffoldPackageTemplate": "com.example.core"
+    }
+  },
+  "examples": {
+    "compliant": [
+      "import com.example.domain.model.SensorData;"
+    ],
+    "nonCompliant": [
+      "import android.util.Log; // inside pure domain logic interfaces"
+    ]
+  }
+}

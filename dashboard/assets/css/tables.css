@@ -1,0 +1,35 @@
+.table-container {
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover { background: rgba(255, 255, 255, 0.02); }
+.badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+.badge.low { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+.badge.medium { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+.badge.high { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.badge.critical { background: rgba(239, 68, 68, 0.2); color: var(--danger); }

@@ -1,0 +1,61 @@
+{
+  "directory": "governance",
+  "description": "Especificações, contratos, padrões de engenharia e regras estáticas estruturando comandos geradores de novos módulos.",
+  "files": [
+    {
+      "name": "architecture-contracts.json",
+      "type": "json",
+      "description": "Contratos estruturais fechados delimitando as regras de desacoplamento, restrição de importações e pastas."
+    },
+    {
+      "name": "architecture-registry.json",
+      "type": "json",
+      "description": "Catálogo unificado registrando módulos oficiais, maturidade, donos e histórico de auditoria."
+    },
+    {
+      "name": "technical-debt.json",
+      "type": "json",
+      "description": "Registro central de débitos técnicos pontuados por prioridade, severidade, maturidade e donos."
+    },
+    {
+      "name": "architecture-roadmap.json",
+      "type": "json",
+      "description": "Plano de evolução planejado de maturidade para cada submódulo por quarters."
+    },
+    {
+      "name": "module-blueprint.json",
+      "type": "json",
+      "description": "Fonte única de verdade das especificações de arquivos e barreiras permitidas de imports por camadas lógicas."
+    },
+    {
+      "name": "active-rules.json",
+      "type": "json",
+      "description": "Regras ativas no motor estático de verificação do Quality Gate."
+    },
+    {
+      "name": "deprecated-rules.json",
+      "type": "json",
+      "description": "Arquivo de histórico listando regras de lint estática depreciadas ou substituídas."
+    },
+    {
+      "name": "rule-history.json",
+      "type": "json",
+      "description": "Registro de eventos de ciclo de vida de modificação ou adição de regras estáticas."
+    },
+    {
+      "name": "quality-standards.json",
+      "type": "json",
+      "description": "Padrões globais de pontuação aceitável, restrições e regras para displays circulares (Touch Target)."
+    },
+    {
+      "name": "rule-template.json",
+      "type": "json",
+      "description": "Modelo de esquema formal regulador para cadastrar novos delimitadores sintáticos no Quality Gate."
+    },
+    {
+      "name": "component-registry.json",
+      "type": "json",
+      "description": "Mapeamento sistemático de componentes visuais permitidos visando consistência em design circulares."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "AIS Quality Standards",
+  "version": "1.0.0",
+  "minArchitectureScore": 60,
+  "optimalArchitectureScore": 85,
+  "strictModules": [
+    "feature-settings",
+    "feature-debug"
+  ],
+  "allowCrossFeatureImports": false,
+  "guidelines": {
+    "circularUiNestingAllowed": false,
+    "uiDirectDataLayerLeakingAllowed": false,
+    "mandatoryViewModelNamingPattern": "ViewModel",
+    "requiredMaturityProgression": [
+      "LEGACY",
+      "MIGRATION",
+      "STABLE",
+      "PROTECTED"
+    ]
+  }
+}

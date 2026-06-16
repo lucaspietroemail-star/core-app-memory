@@ -1,0 +1,22 @@
+{
+  "directoriesEvaluated": [
+    "scripts/",
+    "contracts/",
+    "core-app-memory/ais/reports/",
+    "core-app-memory/ais/governance/",
+    "core-app-memory/ais/memory/",
+    "core-app-memory/ais/adr/",
+    "core-app-memory/ais/dashboard/",
+    ".github/workflows/",
+    "release-buffer/",
+    "core-app-memory/ais/snapshots/",
+    "core-app-memory/ais/history/"
+  ],
+  "directoriesStatus": "MAPPED",
+  "missingOrObsolete": [
+    "contracts/ (migrated to architecture-contracts.json)",
+    "release-buffer/ (generated on demand via GitHub Actions)"
+  ],
+  "totalFilesScanned": 73,
+  "lastAudited": "2026-06-14T05:44:53-07:00"
+}

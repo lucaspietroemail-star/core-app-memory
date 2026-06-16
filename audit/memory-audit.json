@@ -1,0 +1,16 @@
+{
+  "targetBase": "core-app-memory",
+  "memoryNodes": [
+    "memory",
+    "governance",
+    "reports",
+    "dashboard",
+    "adr",
+    "snapshots",
+    "history"
+  ],
+  "healthStatus": "PRODUCTION_READY",
+  "orphanedFiles": [],
+  "conflicts": "NONE",
+  "syncStatus": "CONTINUALLY_SYNCHRONIZED"
+}

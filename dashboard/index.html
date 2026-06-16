@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIS Professional Governance</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/cards.css">
+    <link rel="stylesheet" href="assets/css/tables.css">
+    <link rel="stylesheet" href="assets/css/charts.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <h2>AIS Governance</h2>
+        <nav style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+            <a class="nav-link active" data-target="overview">📈 Executive Overview</a>
+            <a class="nav-link" data-target="wear-core-insights">💡 Wear Core Insights</a>
+            <a class="nav-link" data-target="explorer">📁 Project Explorer</a>
+            <a class="nav-link" data-target="file-history">⏱️ File History</a>
+            <a class="nav-link" data-target="structure-history">🗺️ Structure History</a>
+            <a class="nav-link" data-target="ai-actions">🤖 AI Action Logs</a>
+            <a class="nav-link" data-target="project-state">🧠 Project Snapshot</a>
+            <a class="nav-link" data-target="project-knowledge">📖 Project Memory</a>
+            <a class="nav-link" data-target="ai-knowledge-center">🤖 AI Knowledge Center</a>
+            <a class="nav-link" data-target="modules">📦 Module Registry</a>
+            <a class="nav-link" data-target="debt">⚠️ Technical Debt</a>
+            <a class="nav-link" data-target="adr">📜 ADR Center</a>
+            <a class="nav-link" data-target="timeline">⏳ Evolution Timeline</a>
+            <a class="nav-link" data-target="health">🏥 Architecture Health</a>
+        </nav>
+    </aside>
+    
+    <main class="main-content">
+        <header class="header">
+            <div>
+                <h1 style="margin:0; font-size: 1.5rem; color:#fff;" id="page-title">Executive Overview</h1>
+                <p style="margin: 0.5rem 0 0 0; color: var(--text-muted); font-size: 0.85rem;">System observabiliy & governance metrics.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div id="build-status-banner" style="display:none; padding: 0.5rem 1rem; border-radius: 8px; font-weight: bold; font-size: 0.85rem;"></div>
+                <input type="text" class="search-bar" placeholder="Search modules, debts, adrs...">
+            </div>
+        </header>
+
+        <!-- VIEW: Overview -->
+        <section id="overview" class="tab-pane active">
+            <!-- 🎯 Current System Focus Widget -->
+            <div class="chart-container" style="border: 2px solid #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); margin-bottom: 1.5rem; background: rgba(30, 41, 59, 0.4); border-radius: 8px; padding: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 0.75rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.35rem;">🎯</span>
+                        <h3 style="margin: 0; font-size: 1.15rem; color: #fff; font-weight: 700;">Current Wear Core Sprint Focus</h3>
+                    </div>
+                    <span id="focus-priority" class="badge danger" style="font-size: 0.75rem; letter-spacing: 0.05em; padding: 0.25rem 0.6rem; border-radius: 4px;">HIGH PRIORITY</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+                    <div>
+                        <p style="margin: 0 0 0.5rem 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600;">Current Active Objective</p>
+                        <p id="focus-objective" style="margin: 0; color: #fff; line-height: 1.4; font-size: 0.95rem; font-weight: 500;">Loading sprint focus objectives...</p>
+                    </div>
+                    <div>
+                        <p style="margin: 0 0 0.5rem 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600;">Ongoing Feature Dev</p>
+                        <p id="focus-feature" style="margin: 0; color: #60a5fa; line-height: 1.4; font-size: 0.95rem; font-weight: 600;">Loading feature context...</p>
+                    </div>
+                    <div>
+                        <p style="margin: 0 0 0.5rem 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600;">Current Blockers</p>
+                        <p id="focus-blockers" style="margin: 0; color: #ef4444; line-height: 1.4; font-size: 0.95rem; font-weight: 500;">Analyzing systems...</p>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #334155;">
+                    <p style="margin: 0 0 0.5rem 0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600;">Sprint Tasks & Next Steps</p>
+                    <ul id="focus-steps" style="margin: 0; padding-left: 1.2rem; color: #cbd5e1; font-size: 0.9rem; line-height: 1.5;">
+                        <!-- steps populated dynamically -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="kpi-card" data-color="primary">
+                    <div class="kpi-title">Architecture Score</div>
+                    <div class="kpi-value" id="kpi-score">--</div>
+                </div>
+                <div class="kpi-card" data-color="success">
+                    <div class="kpi-title">Protected Coverage</div>
+                    <div class="kpi-value" id="kpi-coverage">100%</div>
+                </div>
+                <div class="kpi-card" data-color="warning">
+                    <div class="kpi-title">Open Debt Items</div>
+                    <div class="kpi-value" id="kpi-debt">--</div>
+                </div>
+                <div class="kpi-card" data-color="danger">
+                    <div class="kpi-title">Critical Risks</div>
+                    <div class="kpi-value" id="kpi-risk">--</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-header">Architecture Score Evolution</div>
+                    <div class="chart-wrapper">
+                        <canvas id="scoreChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header">Risk Distribution</div>
+                    <div class="chart-wrapper">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header">Technical Debt by Module</div>
+                    <div class="chart-wrapper">
+                        <canvas id="debtChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header">Module Maturity Distribution</div>
+                    <div class="chart-wrapper">
+                        <canvas id="maturityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Modules -->
+        <section id="modules" class="tab-pane">
+            <div class="table-container">
+                <table id="modules-table">
+                    <thead>
+                        <tr>
+                            <th>Módulo</th>
+                            <th>Maturidade</th>
+                            <th>Risco</th>
+                            <th>Última Auditoria</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- VIEW: Debt -->
+        <section id="debt" class="tab-pane">
+            <div class="table-container">
+                <table id="debt-table">
+                    <thead>
+                        <tr>
+                            <th>Módulo</th>
+                            <th>Dívida</th>
+                            <th>Severidade</th>
+                            <th>Idade</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- VIEW: ADRs -->
+        <section id="adr" class="tab-pane">
+            <div class="card-grid" style="grid-template-columns: 1fr;">
+                <div class="chart-container">
+                    <div class="chart-header">Active Decisions</div>
+                    <ul id="adr-list" style="margin:0; padding-left:1.5rem; color:var(--text-main);">
+                        <!-- populated via JS -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Timeline -->
+        <section id="timeline" class="tab-pane">
+            <div class="chart-container">
+                 <div class="chart-header">Release Certifications</div>
+                 <ul id="timeline-list" style="margin:0; padding-left:1.5rem; color:var(--text-main);"></ul>
+            </div>
+        </section>
+
+        <!-- VIEW: Health -->
+        <section id="health" class="tab-pane">
+            <div class="card-grid">
+               <div class="chart-container" style="margin:0;">
+                    <div class="chart-header">Lint Status</div>
+                    <p id="health-lint" style="font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0; color: #10b981;">Loading...</p>
+                    <span id="health-lint-summary" style="font-size: 0.85rem; color: var(--text-muted);">0 violations identified</span>
+                </div>
+               <div class="chart-container" style="margin:0;">
+                    <div class="chart-header">Dependencies</div>
+                    <p id="health-dep" style="font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0; color: #10b981;">Loading...</p>
+                    <span id="health-dep-summary" style="font-size: 0.85rem; color: var(--text-muted);">0 violations identified</span>
+                </div>
+            </div>
+
+            <div class="chart-container" style="margin-top: 1.5rem;">
+                <div class="chart-header">Dependency Guard Violations</div>
+                <div class="table-container" style="margin-top: 0.5rem;">
+                    <table id="health-dep-table">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Restricted Layer</th>
+                                <th>Illegal Import</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="chart-container" style="margin-top: 1.5rem;">
+                <div class="chart-header">Codebase Structural Breaking Changes</div>
+                <div class="table-container" style="margin-top: 0.5rem;">
+                    <table id="health-bc-table">
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Module / Package</th>
+                                <th>Findings Description</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Wear Core Insights -->
+        <section id="wear-core-insights" class="tab-pane">
+            <div class="card-grid" style="margin-bottom: 1.5rem;">
+                <div class="kpi-card" data-color="danger">
+                    <div class="kpi-title">Active Issues Detected</div>
+                    <div class="kpi-value" id="insights-kpi-issues">0</div>
+                </div>
+                <div class="kpi-card" data-color="warning">
+                    <div class="kpi-title">Critical & High Priority</div>
+                    <div class="kpi-value" id="insights-kpi-critical">0</div>
+                </div>
+                <div class="kpi-card" data-color="primary">
+                    <div class="kpi-title">Suggested Corrections</div>
+                    <div class="kpi-value" id="insights-kpi-corrections">0</div>
+                </div>
+                <div class="kpi-card" data-color="success">
+                    <div class="kpi-title">Growth Opportunities</div>
+                    <div class="kpi-value" id="insights-kpi-opportunities">22</div>
+                </div>
+            </div>
+
+            <!-- Download JSON Card -->
+            <div class="chart-container" style="border-left: 4px solid #10b981; background: rgba(16, 185, 129, 0.04); margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <div class="chart-header" style="margin: 0; color: #10b981;">📄 wear-core-dashboard-audit-report.json</div>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0.25rem 0 0 0;">Continuous diagnostic assessment of codebase constraints, file boundaries, memory ceilings, and accessibility.</p>
+                    </div>
+                    <a href="../../wear-core-dashboard-audit-report.json" target="_blank" class="badge approved" style="padding: 0.6rem 1.2rem; cursor: pointer; text-decoration: none; display: inline-block; background: #10b981; font-weight: bold;">
+                        📥 Download Audit Report
+                    </a>
+                </div>
+            </div>
+
+            <div class="charts-grid" style="grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <!-- Table for Flagged Issues & suggested corrections -->
+                <div class="chart-container">
+                    <div class="chart-header">Flagged Project Issues & Precise Systemic Causes</div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Direct evidentiary audits on compiled Gradle structures, Jetpack state allocations, and theme compliance inside Wear Core.</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 130px;">Priority</th>
+                                    <th>Observed Issue</th>
+                                    <th>Expected Code Impact</th>
+                                    <th>Causal Root</th>
+                                    <th>Resolution Guidelines</th>
+                                </tr>
+                            </thead>
+                            <tbody id="insights-issues-tbody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-grid" style="grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="chart-container">
+                    <div class="chart-header">Suggested Architectural & Strategic Corrections</div>
+                    <div class="table-container" style="margin-top: 0.5rem;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Issue Reference</th>
+                                    <th>Suggested Mechanical Correction</th>
+                                    <th>Complexity</th>
+                                    <th>Target Source Files</th>
+                                    <th style="width: 250px;">Anticipated Framework Benefit</th>
+                                </tr>
+                            </thead>
+                            <tbody id="insights-corrections-tbody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grids of Suggested Architectural Opportunities -->
+            <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem;">
+                <div class="chart-container">
+                    <div class="chart-header" style="color: #60a5fa;">🎨 UX & UI Advancements</div>
+                    <div id="insights-ux-container" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header" style="color: #38bdf8;">🧠 Architecture & Performance Tuning</div>
+                    <div id="insights-perf-container" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header" style="color: #10b981;">📝 Records & History Trailing</div>
+                    <div id="insights-history-container" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header" style="color: #a78bfa;">🤖 AI Friendly Crawler Integrations</div>
+                    <div id="insights-ai-container" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Project Explorer -->
+        <section id="explorer" class="tab-pane">
+            <div class="card-grid" style="margin-bottom: 1.5rem;">
+                <div class="kpi-card" data-color="primary">
+                    <div class="kpi-title">Scanned Files</div>
+                    <div class="kpi-value" id="explorer-kpi-files">0</div>
+                </div>
+                <div class="kpi-card" data-color="success">
+                    <div class="kpi-title">Tracked Modules</div>
+                    <div class="kpi-value" id="explorer-kpi-modules">0</div>
+                </div>
+                <div class="kpi-card" data-color="warning">
+                    <div class="kpi-title">Average File Size</div>
+                    <div class="kpi-value" id="explorer-kpi-size">0 KB</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                    <div class="chart-header" style="margin: 0;">Wear Core Active File Explorer</div>
+                    <input type="text" id="explorer-search" class="search-bar" style="margin: 0; width: 300px;" placeholder="Filter files by path, module, type...">
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Continuous inventory scanning and automatic purpose determination for all modules.</p>
+                
+                <div class="table-container">
+                    <table id="explorer-table">
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>File Path</th>
+                                <th>File Type</th>
+                                <th>Size</th>
+                                <th>Technical Summary</th>
+                                <th>AI Summary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: File History -->
+        <section id="file-history" class="tab-pane">
+            <div class="chart-container">
+                <div class="chart-header">Fine-Grained File Modification Events</div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Chronological file-level history showing author attribution, precise actions, and granular change logs.</p>
+                
+                <div class="table-container">
+                    <table id="file-history-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Action</th>
+                                <th>File Coordinates</th>
+                                <th>Author Entity</th>
+                                <th>Implementation Alterations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Structure History -->
+        <section id="structure-history" class="tab-pane">
+            <div class="chart-container">
+                <div class="chart-header">Modular & Codebase Structure Evolutions</div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">Evolutionary track of folder definitions, directory layouts, and module reorganizations inside Wear Core.</p>
+                
+                <ul id="structure-evolution-timeline" style="margin:0; padding-left:1.5rem; color:var(--text-main);">
+                    <!-- timeline populated dynamically -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- VIEW: AI Action Logs -->
+        <section id="ai-actions" class="tab-pane">
+            <div class="chart-container">
+                <div class="chart-header">Google AI Studio Execution Chronicles</div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Active repository of autonomous workspace alterations, system refactoring, design choices and logic corrections.</p>
+                
+                <div class="table-container">
+                    <table id="ai-actions-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Operational Code</th>
+                                <th>Affected Files / Modules</th>
+                                <th>Technical Refactoring Summary</th>
+                                <th>Contextual Reason</th>
+                                <th>Expected Integrity Impact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Project Snapshot (AI-Friendly /project-state) -->
+        <section id="project-state" class="tab-pane">
+            <div style="border: 1px dashed #22c55e; background: rgba(34, 197, 94, 0.05); padding: 1.25rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <h3 style="color: #4ade80; margin: 0 0 0.5rem 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>🤖</span> AI-Friendly Active System Coordinates (project-state schema)
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">
+                    <strong>LLM Context Integration Instructions:</strong> This page exposes a standardized snapshot schema representing the exact active status metrics, modules composition, build criteria, and sprint directions of Wear Core. External LLM systems can ingest this structure directly via GET / wear-core-state-export.json in the file workspace.
+                </p>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="../../wear-core-state-export.json" target="_blank" class="badge approved" style="padding: 0.5rem 1rem; cursor: pointer; text-decoration: none; display: inline-block;">
+                        📥 Download state-export.json
+                    </a>
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('state-raw-view').textContent); alert('State JSON copied to clipboard!');" class="badge approved" style="border: none; padding: 0.5rem 1rem; cursor: pointer; background: #3b82f6;">
+                        📋 Copy Plain Payload
+                    </button>
+                </div>
+            </div>
+
+            <div class="charts-grid" style="grid-template-columns: 1fr;">
+                <div class="chart-container">
+                    <div class="chart-header">Current state-export.json Payload Dynamic Content</div>
+                    <pre id="state-raw-view" style="background: #020617; border: 1px solid #1e293b; color: #38bdf8; padding: 1.2rem; border-radius: 8px; font-family: monospace; font-size: 0.85rem; overflow-x: auto; max-height: 500px; margin-top: 1rem;"></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Project Memory (AI-Friendly /project-knowledge) -->
+        <section id="project-knowledge" class="tab-pane">
+            <div style="border: 1px dashed #3b82f6; background: rgba(59, 130, 246, 0.05); padding: 1.25rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <h3 style="color: #60a5fa; margin: 0 0 0.5rem 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>📖</span> Cumulative Project Knowledge & Persistent Memory (project-knowledge schema)
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">
+                    Exposes the full chronological memory of Wear Core: continuous file inventories, file-level histories, system architectural reorganizations, Google AI Studio chronicles, and historical release score certifications. Versioned exports are fully retained to enable absolute comparative timelines over any sprint.
+                </p>
+                
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 1.25rem;">
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="../../wear-core-knowledge-export.json" target="_blank" class="badge approved" style="padding: 0.5rem 1rem; cursor: pointer; text-decoration: none; display: inline-block; background: #2563eb;">
+                            📥 Download latest knowledge-export.json
+                        </a>
+                        <button onclick="navigator.clipboard.writeText(document.getElementById('knowledge-raw-view').textContent); alert('Knowledge JSON copied to clipboard!');" class="badge approved" style="border: none; padding: 0.5rem 1rem; cursor: pointer; background: #64748b;">
+                            📋 Copy Plain Payload
+                        </button>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="color: #94a3b8; font-size: 0.85rem; font-weight: bold;">📜 Compare Historical Export:</span>
+                        <select id="export-version-select" class="search-bar" style="margin: 0; width: 220px; font-size: 0.85rem; padding: 0.25rem 0.5rem; height: auto;">
+                            <option value="">Latest Live Runtime State</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-grid" style="grid-template-columns: 1fr;">
+                <div class="chart-container">
+                    <div class="chart-header" id="knowledge-title">Active knowledge-export.json Payload Dynamic Content</div>
+                    <pre id="knowledge-raw-view" style="background: #020617; border: 1px solid #1e293b; color: #a78bfa; padding: 1.2rem; border-radius: 8px; font-family: monospace; font-size: 0.85rem; overflow-x: auto; max-height: 500px; margin-top: 1rem;"></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: AI Knowledge Center (🤖) -->
+        <section id="ai-knowledge-center" class="tab-pane">
+            <!-- Header Explainer -->
+            <div style="border: 1px dashed #38bdf8; background: rgba(56, 189, 248, 0.05); padding: 1.25rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <h3 style="color: #60a5fa; margin: 0 0 0.5rem 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>🤖</span> AI Intelligence & Shared Knowledge Center
+                </h3>
+                <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; margin: 0;">
+                    This hub provides a fully structured public knowledge layer designed to assist remote large language models (LLMs), scrapers, and developer agents in instantly grasping the full codebase architectural patterns, file indexes, sprint focuses, and historical transitions of <strong>Wear Core</strong> without direct Git access requirements.
+                </p>
+            </div>
+
+            <!-- AI Index Panel -->
+            <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                <!-- AI Index Discovery Card -->
+                <div class="chart-container" style="border: 2px solid #581c87; box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);">
+                    <div class="chart-header" style="color: #a78bfa; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📄</span> ai-index.json Central Discovery
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Primary catalog mapping the active state of directories and automated knowledge outputs.</p>
+                    
+                    <div style="background: #020617; border: 1px solid #3b0764; padding: 1rem; border-radius: 6px; margin-bottom: 1.25rem;">
+                        <pre id="ai-index-payload" style="margin:0; padding:0; background:transparent; border:none; height:180px; overflow-y:auto; font-size:0.8rem; color:#d8b4fe; font-family:monospace;"></pre>
+                    </div>
+
+                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                        <a href="../../exports/ai-index.json" target="_blank" class="badge approved" style="padding: 0.5rem 0.75rem; background: #5b21b6; text-decoration: none;">📥 Download Index</a>
+                        <button onclick="shareLink('/exports/ai-index.json')" class="badge approved" style="padding: 0.5rem 0.75rem; background: #4d7c0f; border: none; cursor: pointer;">📋 Copy URL</button>
+                    </div>
+                </div>
+
+                <!-- State Snapshot (HTML / JSON) -->
+                <div class="chart-container">
+                    <div class="chart-header" style="color: #38bdf8; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🧠</span> Project State Snapshot
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">State, linter evaluations, dependency compliance parameters, and current sprinto indicators.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
+                            <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">🖥️ AI-Friendly Page</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="../../project-state/index.html" target="_blank" class="badge approved" style="background:#0284c7; text-decoration:none;">🔗 Open</a>
+                                <button onclick="shareLink('/project-state/index.html')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
+                            <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">📄 Output Payload JSON</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="../../exports/wear-core-state-export.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
+                                <button onclick="shareLink('/exports/wear-core-state-export.json')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                <!-- Project memory (HTML / JSON) -->
+                <div class="chart-container">
+                    <div class="chart-header" style="color: #a78bfa; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📖</span> Cumulative Project Memory
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Recursive directory maps, purpose listings, ADR declarations and audit modifications history trails.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
+                            <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">🖥️ AI-Friendly Page</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="../../project-knowledge/index.html" target="_blank" class="badge approved" style="background:#7c3aed; text-decoration:none;">🔗 Open</a>
+                                <button onclick="shareLink('/project-knowledge/index.html')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
+                            <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">📄 Output Payload JSON</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="../../exports/wear-core-knowledge-export.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
+                                <button onclick="shareLink('/exports/wear-core-knowledge-export.json')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Focus (HTML / JSON) -->
+                <div class="chart-container">
+                    <div class="chart-header" style="color: #f59e0b; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🎯</span> Active Sprint Focus
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Specific sprint objectives, priority designations, ongoing blockers and task sequences.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
+                            <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">🖥️ AI-Friendly Page</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="../../project-focus/index.html" target="_blank" class="badge approved" style="background:#d97706; text-decoration:none;">🔗 Open</a>
+                                <button onclick="shareLink('/project-focus/index.html')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
+                            <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">📄 Output Payload JSON</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="../../exports/wear-core-current-focus.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
+                                <button onclick="shareLink('/exports/wear-core-current-focus.json')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-grid" style="grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                <!-- AI Studio Action Logs (HTML / JSON) -->
+                <div class="chart-container">
+                    <div class="chart-header" style="color: #ec4899; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>⏱️</span> Google AI Studio Action Logs
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Chronological tracks of AI integrations, code alterations, safety refactoring, and logical mappings.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
+                            <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">🖥️ AI-Friendly Page</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="../../project-actions/index.html" target="_blank" class="badge approved" style="background:#db2777; text-decoration:none;">🔗 Open</a>
+                                <button onclick="shareLink('/project-actions/index.html')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30,41,59,0.5); padding: 0.6rem 1rem; border-radius: 6px; border: 1px solid #334155;">
+                            <span style="font-size: 0.85rem; color: #fff; font-weight: 500;">📄 Output Payload JSON</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="../../exports/wear-core-ai-actions.json" target="_blank" class="badge approved" style="background:#16a34a; text-decoration:none;">📥 Get</a>
+                                <button onclick="shareLink('/exports/wear-core-ai-actions.json')" class="badge approved" style="background:#52525b; border:none; cursor:pointer;">📋 URL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Version comparative/history controller -->
+                <div class="chart-container" style="border: 1px solid #4b5563;">
+                    <div class="chart-header" style="color: #cbd5e1; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>⏳</span> Compare Historical Exports / Navegar entre Versões
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Validate comparative summaries and track system evolution records over milestones.</p>
+                    
+                    <div style="margin: 1rem 0;">
+                        <label style="color: var(--text-muted); font-size: 0.8rem; font-weight: bold; display: block; margin-bottom: 0.5rem;">📅 Select Past Version Coordinates:</label>
+                        <select id="knowledge-selector" class="search-bar" style="margin: 0; width: 100%;" onchange="compareMetadataVersions(this.value)">
+                            <option value="">-- Choose Historical Snapshot --</option>
+                        </select>
+                    </div>
+
+                    <!-- Comparative metrics display table -->
+                    <div id="comparative-metrics-panel" style="display:none; margin-top: 1rem; border: 1px solid #334155; padding: 1rem; border-radius: 6px; background: rgba(15,23,42,0.4);">
+                        <strong style="color: #60a5fa; font-size: 0.85rem; display: block; margin-bottom: 0.5rem;">⚖️ Side-by-Side Comparison:</strong>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.8rem;">
+                            <div>
+                                <span style="color: var(--text-muted); display: block;">Past Version:</span>
+                                <span id="comp-past-ver" style="color: #f59e0b; font-weight: bold;">--</span>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-muted); display: block;">Current Live Version:</span>
+                                <span id="comp-live-ver" style="color: #10b981; font-weight: bold;">--</span>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-muted); display: block;">Past Scanned Files:</span>
+                                <span id="comp-past-files" style="color: #fff;">--</span>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-muted); display: block;">Current Scanned Files:</span>
+                                <span id="comp-live-files" style="color: #fff;">--</span>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-muted); display: block;">Past Arch Quality Score:</span>
+                                <span id="comp-past-score" style="color: #fff;">--</span>
+                            </div>
+                            <div>
+                                <span style="color: var(--text-muted); display: block;">Current Arch Quality Score:</span>
+                                <span id="comp-live-score" style="color: #fff;">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Data script exports payload -->
+    <script src="../aggregate/combined-state.js"></script>
+
+    <!-- App Logic -->
+    <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/charts.js"></script>
+</body>
+</html>

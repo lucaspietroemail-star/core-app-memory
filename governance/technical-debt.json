@@ -1,0 +1,43 @@
+{
+  "lastUpdated": "2026-06-13T12:00:00Z",
+  "technicalDebt": {
+    "feature-notifications": [
+      {
+        "id": "DEBT-001",
+        "description": "Legacy manual state subscription instead of collectAsStateWithLifecycle.",
+        "priority": "HIGH",
+        "severity": "MAJOR",
+        "createdAt": "2026-06-11",
+        "owner": "Notification & Comms Team"
+      },
+      {
+        "id": "DEBT-002",
+        "description": "Legacy navigation routes defined inside UI instead of serialization keys.",
+        "priority": "MEDIUM",
+        "severity": "MINOR",
+        "createdAt": "2026-06-11",
+        "owner": "Notification & Comms Team"
+      }
+    ],
+    "feature-sensors": [
+      {
+        "id": "DEBT-003",
+        "description": "Direct sensors binding on platform API instead of clean Domain UseCase abstraction.",
+        "priority": "CRITICAL",
+        "severity": "CRITICAL",
+        "createdAt": "2026-06-11",
+        "owner": "Sensor Integration Team"
+      }
+    ],
+    "feature-media": [
+      {
+        "id": "DEBT-004",
+        "description": "Missing custom Robolectric unit tests for circular overlay widgets gestures.",
+        "priority": "MEDIUM",
+        "severity": "MINOR",
+        "createdAt": "2026-06-12",
+        "owner": "Media Services Team"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "project": "Wear Core",
+  "version": "1.3.1-wc",
+  "versionCode": 32,
+  "updatedAt": "2026-06-16T00:51:49.554Z",
+  "exports": {
+    "state": "/core-app-memory/exports/wear-core-state-export.json",
+    "knowledge": "/core-app-memory/exports/wear-core-knowledge-export.json",
+    "focus": "/core-app-memory/exports/wear-core-current-focus.json",
+    "actions": "/core-app-memory/exports/wear-core-ai-actions.json",
+    "insights": "/core-app-memory/exports/wear-core-dashboard-audit-report.json"
+  },
+  "pages": {
+    "state": "/core-app-memory/project-state/index.html",
+    "knowledge": "/core-app-memory/project-knowledge/index.html",
+    "focus": "/core-app-memory/project-focus/index.html",
+    "actions": "/core-app-memory/project-actions/index.html"
+  }
+}

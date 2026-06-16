@@ -1,0 +1,13 @@
+{
+  "lastUpdated": "2026-06-13T12:00:00Z",
+  "deprecatedRules": [
+    {
+      "id": "LEGACY-RULE-101",
+      "name": "Single View Navigation Block",
+      "description": "Impedia rotas com parâmetros compostos no Wear OS antigo.",
+      "deprecatedAt": "2026-06-12",
+      "reason": "Substituído utilizando chaves serializáveis completas e type-safe navigation em Kotlin.",
+      "replacedBy": "RULE-002"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "protectedModules": [
+    "feature-launcher",
+    "feature-settings",
+    "feature-drawer"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "kpis": [
+    {
+      "date": "2026-06-13",
+      "architectureScore": 96,
+      "technicalDebtItems": 3,
+      "protectedCoverage": "100%",
+      "adrCompliance": "100%",
+      "dependencyHealth": "GOOD",
+      "moduleMaturity": "STABLE"
+    }
+  ]
+}

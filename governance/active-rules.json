@@ -1,0 +1,40 @@
+{
+  "lastUpdated": "2026-06-13T12:00:00Z",
+  "activeRules": [
+    {
+      "id": "RULE-001",
+      "name": "Strict Layer Coupling Blocking",
+      "description": "Impede importação de Repositories ou DataSources diretamente na camada de UI.",
+      "severity": "ERROR",
+      "createdAt": "2026-06-11"
+    },
+    {
+      "id": "RULE-002",
+      "name": "No Cross-Feature Dependence",
+      "description": "Proíbe dependência física direta de compilação entre dois módulos de feature.",
+      "severity": "ERROR",
+      "createdAt": "2026-06-11"
+    },
+    {
+      "id": "RULE-003",
+      "name": "Circular Safe Area Enforcement",
+      "description": "Força uso de componentes que calculam recortes de tela circular (API 26).",
+      "severity": "WARNING",
+      "createdAt": "2026-06-12"
+    },
+    {
+      "id": "RULE-004",
+      "name": "Minimum Touch Target Density",
+      "description": "Engloba detecção de botões ou elementos com dimensões menores de 48dp.",
+      "severity": "ERROR",
+      "createdAt": "2026-06-12"
+    },
+    {
+      "id": "RULE-005",
+      "name": "Required ViewModel Suffix Pattern",
+      "description": "Obriga que classes sob o pacote /vm terminem estritamente com o sufixo 'ViewModel'.",
+      "severity": "ERROR",
+      "createdAt": "2026-06-13"
+    }
+  ]
+}

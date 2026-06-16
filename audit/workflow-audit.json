@@ -1,0 +1,18 @@
+{
+  "targetDir": ".github/workflows/",
+  "workflows": [
+    "Release.yml",
+    "architecture-memory-sync.yml",
+    "architecture-pipeline.yml"
+  ],
+  "healthStatus": "PRODUCTION_READY",
+  "issues": [
+    {
+      "workflow": "architecture-memory-sync.yml",
+      "severity": "LOW",
+      "message": "Token configuration relies on GITHUB_TOKEN directly. Ensure standard repository settings allow cross-sync."
+    }
+  ],
+  "postGateIfAlwaysUsed": true,
+  "earlyTermination": false
+}

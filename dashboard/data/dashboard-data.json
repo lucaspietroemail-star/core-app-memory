@@ -1,0 +1,678 @@
+{
+  "generatedAt": "2026-06-13T23:09:57.051Z",
+  "version": {
+    "versionCode": 14,
+    "versionName": "0.11.0-beta",
+    "releaseChannel": "beta",
+    "buildDate": "2026-06-13"
+  },
+  "qualityGate": {
+    "score": 100,
+    "status": "APPROVED",
+    "blockedReasons": {},
+    "metrics": {
+      "totalViolations": 0,
+      "errors": 0,
+      "warnings": 0,
+      "dependencyGuardViolations": 0,
+      "breakingChangesBlocked": 0
+    },
+    "gates": {
+      "perfectScore": true,
+      "passingScore": true,
+      "zeroErrors": true
+    },
+    "findingsLog": []
+  },
+  "lintReport": {
+    "fileViolations": [],
+    "structuralViolations": []
+  },
+  "dependencyReport": {
+    "totalDependencyViolations": 0,
+    "violations": []
+  },
+  "breakingChangeReport": {
+    "status": "PASSED",
+    "findings": []
+  },
+  "maturity": {
+    "lastUpdated": "2026-06-13T12:30:00Z",
+    "modules": {
+      "feature-launcher": "STABLE",
+      "feature-drawer": "STABLE",
+      "feature-notifications": "STABLE",
+      "feature-media": "MIGRATION",
+      "feature-settings": "PROTECTED",
+      "feature-sensors": "LEGACY",
+      "feature-debug": "PROTECTED"
+    },
+    "history": [
+      {
+        "date": "2026-06-11",
+        "module": "feature-launcher",
+        "from": "LEGACY",
+        "to": "STABLE",
+        "justification": "Modularizacao da base da interface circular e Honeycomb App Drawer."
+      },
+      {
+        "date": "2026-06-12",
+        "module": "feature-settings",
+        "from": "MIGRATION",
+        "to": "PROTECTED",
+        "justification": "Completa cobertura de qualidade e desacoplamento absoluto sob a ADR-0004."
+      },
+      {
+        "date": "2026-06-12",
+        "username": "actions@github.com",
+        "module": "feature-debug",
+        "from": "LEGACY",
+        "to": "PROTECTED",
+        "justification": "Implementacao de barreira protetora contra vazamento de mocks e simuladores em modo de producao."
+      }
+    ]
+  },
+  "components": {
+    "registryVersion": "1.0.0",
+    "lastUpdated": "2026-06-12T22:20:00Z",
+    "components": [
+      {
+        "name": "BaseButton",
+        "package": "com.example.designsystem.components",
+        "description": "Standard high-contrast action button conforming to 48dp target constraints",
+        "version": "1.0.0",
+        "responsibles": [
+          "Senior Android Engineer"
+        ],
+        "dependencies": [
+          "androidx.compose.material3.Button"
+        ]
+      },
+      {
+        "name": "BaseCard",
+        "package": "com.example.designsystem.components",
+        "description": "Adaptive notification or info container adjusting for circular corners",
+        "version": "1.0.0",
+        "responsibles": [
+          "Senior Android Engineer"
+        ],
+        "dependencies": [
+          "androidx.compose.material3.Card"
+        ]
+      },
+      {
+        "name": "BaseDialog",
+        "package": "com.example.designsystem.components",
+        "description": "Full-screen alert container optimized for circular watch face boundaries",
+        "version": "1.0.0",
+        "responsibles": [
+          "Senior Android Engineer"
+        ],
+        "dependencies": [
+          "androidx.compose.ui.window.Dialog"
+        ]
+      },
+      {
+        "name": "BaseList",
+        "package": "com.example.designsystem.components",
+        "description": "Lazy list wrapper ensuring automatic edge-insets correction based on viewport height",
+        "version": "1.1.0",
+        "responsibles": [
+          "Senior Android Engineer"
+        ],
+        "dependencies": [
+          "androidx.compose.foundation.lazy.LazyColumn"
+        ]
+      },
+      {
+        "name": "BaseScaffold",
+        "package": "com.example.designsystem.components",
+        "description": "Edge-to-edge system wrapper handling safe navigation overlays and battery indicators",
+        "version": "1.2.0",
+        "responsibles": [
+          "Senior Android Engineer"
+        ],
+        "dependencies": [
+          "androidx.compose.material3.Scaffold"
+        ]
+      },
+      {
+        "name": "BaseTopBar",
+        "package": "com.example.designsystem.components",
+        "description": "Minimal top bar accommodating dynamic circular system clocks and task statuses",
+        "version": "1.0.0",
+        "responsibles": [
+          "Senior Android Engineer"
+        ],
+        "dependencies": [
+          "androidx.compose.material3.TopAppBar"
+        ]
+      },
+      {
+        "name": "BaseBottomSheet",
+        "package": "com.example.designsystem.components",
+        "description": "Slide-up contextual panel handling micro-interactions",
+        "version": "1.0.0",
+        "responsibles": [
+          "Senior Android Engineer"
+        ],
+        "dependencies": [
+          "androidx.compose.material3.ModalBottomSheet"
+        ]
+      },
+      {
+        "name": "BaseSwitch",
+        "package": "com.example.designsystem.components",
+        "description": "Standardized lightweight toggle control with material feedback ripple",
+        "version": "1.0.0",
+        "responsibles": [
+          "Senior Android Engineer"
+        ],
+        "dependencies": [
+          "androidx.compose.material3.Switch"
+        ]
+      },
+      {
+        "name": "BaseSlider",
+        "package": "com.example.designsystem.components",
+        "description": "Touch-safe brightness/volume slider with responsive numeric displays",
+        "version": "1.0.0",
+        "responsibles": [
+          "Senior Android Engineer"
+        ],
+        "dependencies": [
+          "androidx.compose.material3.Slider"
+        ]
+      },
+      {
+        "name": "BaseLoading",
+        "package": "com.example.designsystem.components",
+        "description": "Dynamic circular sweeping loader indicating active background requests",
+        "version": "1.0.1",
+        "responsibles": [
+          "Senior Android Engineer"
+        ],
+        "dependencies": [
+          "androidx.compose.material3.CircularProgressIndicator"
+        ]
+      },
+      {
+        "name": "BaseError",
+        "package": "com.example.designsystem.components",
+        "description": "Standard error panel combining feedback icons and dynamic auto-retry buttons",
+        "version": "1.0.0",
+        "responsibles": [
+          "Senior Android Engineer"
+        ],
+        "dependencies": [
+          "androidx.compose.material3.TextButton"
+        ]
+      }
+    ]
+  },
+  "decisions": {
+    "architectural_decisions": [
+      {
+        "id": "AD-001",
+        "date": "2026-06-11",
+        "topic": "Wear OS 6 Circular UI Adaptation (API 26)",
+        "description": "Standardized the usage of ScreenScaffold and TransformingLazyColumn to avoid screen cropping on circular watches with 372dp diameter.",
+        "status": "APPROVED",
+        "rationale": "Hardware limit of 372dp diameter cutoffs near extreme corners."
+      },
+      {
+        "id": "AD-002",
+        "date": "2026-06-11",
+        "topic": "Architecture modularity enforcing zero cross-feature dependency",
+        "description": "Enforced strict decoupling of feature modules. Features communicate via Contract System defined inside the core module to prevent circular compilation paths.",
+        "status": "APPROVED",
+        "rationale": "Prevents cyclic project configurations and speeds up Gradle incremental configuration time."
+      },
+      {
+        "id": "AD-003",
+        "date": "2026-06-12",
+        "topic": "Automated APK Background Updates",
+        "description": "Transitioned from browser-launched GitHub release links to direct background download stream with live percentage updates and secure FileProvider hands-off to prevent Wear OS memory overflows.",
+        "status": "APPROVED",
+        "rationale": "Android 8 constraints require sandboxed handoff of package managers via strict content authorities."
+      },
+      {
+        "id": "ADR-0004",
+        "date": "2026-06-12",
+        "topic": "Desacoplamento Estrito da Interface (UI) com a Camada de Dados (Data)",
+        "description": "Toda comunicação entre UI e dados deve obrigatoriamente transitar por ViewModel e UseCase.",
+        "status": "APPROVED",
+        "rationale": "Garante isolamento dos dados de telemetria do Wear OS e permite testes independentes de interface."
+      }
+    ]
+  },
+  "architecturalMemory": {
+    "project": "Wear OS Core System unificado",
+    "created": "2026-06-11T12:00:00Z",
+    "lastUpdated": "2026-06-13T10:41:00Z",
+    "decisions": [
+      {
+        "id": "AD-001",
+        "date": "2026-06-11",
+        "topic": "Wear OS 6 Circular UI Adaptation (API 26)",
+        "description": "Standardized the usage of ScreenScaffold and TransformingLazyColumn to avoid screen cropping on circular watches with 372dp diameter.",
+        "status": "APPROVED",
+        "rationale": "Hardware limit of 372dp diameter cutoffs near extreme corners."
+      },
+      {
+        "id": "AD-002",
+        "date": "2026-06-11",
+        "topic": "Architecture modularity enforcing zero cross-feature dependency",
+        "description": "Enforced strict decoupling of feature modules. Features communicate via Contract System defined inside the core module to prevent circular compilation paths.",
+        "status": "APPROVED",
+        "rationale": "Prevents cyclic project configurations and speeds up Gradle incremental configuration time."
+      },
+      {
+        "id": "AD-003",
+        "date": "2026-06-12",
+        "topic": "Automated APK Background Updates",
+        "description": "Transitioned from browser-launched GitHub release links to direct background download stream with live percentage updates and secure FileProvider hands-off to prevent Wear OS memory overflows.",
+        "status": "APPROVED",
+        "rationale": "Android 8 constraints require sandboxed handoff of package managers via strict content authorities."
+      },
+      {
+        "id": "ADR-0004",
+        "date": "2026-06-12",
+        "topic": "Desacoplamento Estrito da Interface (UI) com a Camada de Dados (Data)",
+        "description": "Toda comunicação entre UI e dados deve obrigatoriamente transitar por ViewModel e UseCase.",
+        "status": "APPROVED",
+        "rationale": "Garante isolamento dos dados de telemetria do Wear OS e permite testes independentes de interface."
+      }
+    ],
+    "historicalViolations": [
+      {
+        "timestamp": "2026-06-11T19:04:00Z",
+        "file": "domain/src/main/java/com/example/domain/usecase/update/DownloadUpdateUseCase.kt",
+        "type": "DOMAIN_DEPENDS_ON_ANDROID_FRAMEWORK",
+        "message": "Unresolved reference 'javax.inject.Inject' in pure JVM Domain layer.",
+        "severity": "error",
+        "fixAction": "Refactored DownloadUpdateUseCase constructor to use Constructor Injection and registered factory provider inside data layer UseCaseModule manually."
+      }
+    ],
+    "correctionsApplied": [
+      {
+        "timestamp": "2026-06-12T15:10:00Z",
+        "ruleId": "STRUCT_DIR_MIGRATION",
+        "action": "Ensure all modules have uniform ui, vm, and state internal package partitions to pass static Architecture Lint rule standard checks automatically.",
+        "affectedModules": [
+          "feature-launcher",
+          "feature-settings"
+        ]
+      }
+    ],
+    "detectedPatterns": [
+      {
+        "patternId": "VM_UI_COUPLING",
+        "description": "ViewModel importing UI packages, usually caused by lazy usage of Compose standard colors or icons. ViewModels must rely strictly on domain models or primitive states.",
+        "frequency": "low",
+        "remediation": "Encourage mapped visual UI state resource configurations or ID bindings."
+      },
+      {
+        "patternId": "USE_CASE_CIRCULARITY",
+        "description": "Direct cross-domain boundary coupling between business logic scopes.",
+        "frequency": "very_low",
+        "remediation": "Always pass state actions or merge domain tasks inside single-focused composite view model flows."
+      }
+    ],
+    "learnedRules": [
+      {
+        "ruleId": "RULE-001",
+        "name": "Single source of truth in state",
+        "description": "Actions must mutate UI State solely through flows inside ViewModels. Events must never persist to avoid Wear OS background recycling state mismatch errors."
+      },
+      {
+        "ruleId": "RULE-002",
+        "name": "Circular Screen Boundary Margins",
+        "description": "All lists operating near physical smartwatch edges must wrap under TransformingLazyColumn scroll adjustments or dynamic inner content safe areas."
+      }
+    ]
+  },
+  "recommendations": [
+    {
+      "priority": "MEDIUM",
+      "icon": "📦",
+      "title": "Formulate migration path for LEGACY modules",
+      "description": "Modules such as [feature-sensors] are running under LEGACY rules. Guide them to STABLE state through partition refactoring."
+    }
+  ],
+  "scoreHistory": [
+    {
+      "version": "0.1.0-beta",
+      "date": "2026-06-11",
+      "score": 45,
+      "errors": 22,
+      "warnings": 15
+    },
+    {
+      "version": "0.3.0-beta",
+      "date": "2026-06-11",
+      "score": 58,
+      "errors": 12,
+      "warnings": 8
+    },
+    {
+      "version": "0.6.0-beta",
+      "date": "2026-06-12",
+      "score": 72,
+      "errors": 5,
+      "warnings": 10
+    },
+    {
+      "version": "0.8.0-beta",
+      "date": "2026-06-13",
+      "score": 88,
+      "errors": 0,
+      "warnings": 4
+    },
+    {
+      "version": "0.9.1-beta",
+      "date": "2026-06-13",
+      "score": 96,
+      "errors": 0,
+      "warnings": 1
+    }
+  ],
+  "registry": {
+    "registryVersion": "1.0.0",
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "modules": {
+      "feature-launcher": {
+        "maturity": "STABLE",
+        "createdAt": "2026-06-11",
+        "lastAudit": "2026-06-13",
+        "owner": "Android Launcher Team",
+        "status": "ACTIVE",
+        "description": "Responsável pelo mostrador circular principal do relógio e widget faces."
+      },
+      "feature-drawer": {
+        "maturity": "STABLE",
+        "createdAt": "2026-06-11",
+        "lastAudit": "2026-06-13",
+        "owner": "Android UX Team",
+        "status": "ACTIVE",
+        "description": "Sistema de gaveta de aplicativos com rolagem circular otimizada."
+      },
+      "feature-notifications": {
+        "maturity": "STABLE",
+        "createdAt": "2026-06-11",
+        "lastAudit": "2026-06-13",
+        "owner": "Notification & Comms Team",
+        "status": "ACTIVE",
+        "description": "Notification Center dinâmico integrado às permissões e UseCases simulados."
+      },
+      "feature-media": {
+        "maturity": "MIGRATION",
+        "createdAt": "2026-06-12",
+        "lastAudit": "2026-06-13",
+        "owner": "Media Services Team",
+        "status": "ACTIVE",
+        "description": "Controle de mídia Wear OS com gestures e ripple feedback háptico."
+      },
+      "feature-settings": {
+        "maturity": "PROTECTED",
+        "createdAt": "2026-06-11",
+        "lastAudit": "2026-06-13",
+        "owner": "Core Security Team",
+        "status": "ACTIVE",
+        "description": "Painel de configurações gerais de sistema Wear OS regulado sob a ADR-004."
+      },
+      "feature-sensors": {
+        "maturity": "LEGACY",
+        "createdAt": "2026-06-11",
+        "lastAudit": "2026-06-13",
+        "owner": "Sensor Integration Team",
+        "status": "ACTIVE",
+        "description": "Integração de pedômetro e batimentos cardíacos com as APIs de firmware real."
+      },
+      "feature-debug": {
+        "maturity": "PROTECTED",
+        "createdAt": "2026-06-12",
+        "lastAudit": "2026-06-13",
+        "owner": "QA & Simulation Team",
+        "status": "ACTIVE",
+        "description": "Painel exclusivo para injeção de estados fakes e simulação de sensores."
+      }
+    }
+  },
+  "technicalDebt": {
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "technicalDebt": {
+      "feature-notifications": [
+        {
+          "id": "DEBT-001",
+          "description": "Legacy manual state subscription instead of collectAsStateWithLifecycle.",
+          "priority": "HIGH",
+          "severity": "MAJOR",
+          "createdAt": "2026-06-11",
+          "owner": "Notification & Comms Team"
+        },
+        {
+          "id": "DEBT-002",
+          "description": "Legacy navigation routes defined inside UI instead of serialization keys.",
+          "priority": "MEDIUM",
+          "severity": "MINOR",
+          "createdAt": "2026-06-11",
+          "owner": "Notification & Comms Team"
+        }
+      ],
+      "feature-sensors": [
+        {
+          "id": "DEBT-003",
+          "description": "Direct sensors binding on platform API instead of clean Domain UseCase abstraction.",
+          "priority": "CRITICAL",
+          "severity": "CRITICAL",
+          "createdAt": "2026-06-11",
+          "owner": "Sensor Integration Team"
+        }
+      ],
+      "feature-media": [
+        {
+          "id": "DEBT-004",
+          "description": "Missing custom Robolectric unit tests for circular overlay widgets gestures.",
+          "priority": "MEDIUM",
+          "severity": "MINOR",
+          "createdAt": "2026-06-12",
+          "owner": "Media Services Team"
+        }
+      ]
+    }
+  },
+  "roadmap": {
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "roadmap": {
+      "feature-settings": {
+        "currentMaturity": "PROTECTED",
+        "targetMaturity": "PROTECTED",
+        "status": "COMPLETED",
+        "quarter": "Q2-2026",
+        "notes": "Desacoplamento absoluto completo e cobertura de testes visuais assegurada."
+      },
+      "feature-launcher": {
+        "currentMaturity": "STABLE",
+        "targetMaturity": "PROTECTED",
+        "status": "IN_PROGRESS",
+        "quarter": "Q2-2026",
+        "notes": "Migração em andamento para a proteção máxima contra desvios de imports e insets circulares."
+      },
+      "feature-drawer": {
+        "currentMaturity": "STABLE",
+        "targetMaturity": "STABLE",
+        "status": "COMPLETED",
+        "quarter": "Q2-2026",
+        "notes": "Modularização modularizada e estabilizada de rolagem de listagens Circular Honeycomb."
+      },
+      "feature-notifications": {
+        "currentMaturity": "STABLE",
+        "targetMaturity": "PROTECTED",
+        "status": "PLANNED",
+        "quarter": "Q3-2026",
+        "notes": "Planejando substituição de subsrições manuais por UI StateFlows coletados de forma segura."
+      },
+      "feature-media": {
+        "currentMaturity": "MIGRATION",
+        "targetMaturity": "STABLE",
+        "status": "IN_PROGRESS",
+        "quarter": "Q2-2026",
+        "notes": "Finalização do player dinâmico com ripples e mocks de rádio do hardware Wear OS."
+      },
+      "feature-sensors": {
+        "currentMaturity": "LEGACY",
+        "targetMaturity": "STABLE",
+        "status": "PLANNED",
+        "quarter": "Q3-2026",
+        "notes": "Re-arquitetura completa de acoplamentos físicos de hardware do relógio substituindo por mappers de UseCase puros."
+      },
+      "feature-debug": {
+        "currentMaturity": "PROTECTED",
+        "targetMaturity": "PROTECTED",
+        "status": "COMPLETED",
+        "quarter": "Q2-2026",
+        "notes": "Garantida blindagem contra vazamento de simuladores e mocks em builds produtivas de mercado."
+      }
+    }
+  },
+  "activeRules": {
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "activeRules": [
+      {
+        "id": "RULE-001",
+        "name": "Strict Layer Coupling Blocking",
+        "description": "Impede importação de Repositories ou DataSources diretamente na camada de UI.",
+        "severity": "ERROR",
+        "createdAt": "2026-06-11"
+      },
+      {
+        "id": "RULE-002",
+        "name": "No Cross-Feature Dependence",
+        "description": "Proíbe dependência física direta de compilação entre dois módulos de feature.",
+        "severity": "ERROR",
+        "createdAt": "2026-06-11"
+      },
+      {
+        "id": "RULE-003",
+        "name": "Circular Safe Area Enforcement",
+        "description": "Força uso de componentes que calculam recortes de tela circular (API 26).",
+        "severity": "WARNING",
+        "createdAt": "2026-06-12"
+      },
+      {
+        "id": "RULE-004",
+        "name": "Minimum Touch Target Density",
+        "description": "Engloba detecção de botões ou elementos com dimensões menores de 48dp.",
+        "severity": "ERROR",
+        "createdAt": "2026-06-12"
+      },
+      {
+        "id": "RULE-005",
+        "name": "Required ViewModel Suffix Pattern",
+        "description": "Obriga que classes sob o pacote /vm terminem estritamente com o sufixo 'ViewModel'.",
+        "severity": "ERROR",
+        "createdAt": "2026-06-13"
+      }
+    ]
+  },
+  "deprecatedRules": {
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "deprecatedRules": [
+      {
+        "id": "LEGACY-RULE-101",
+        "name": "Single View Navigation Block",
+        "description": "Impedia rotas com parâmetros compostos no Wear OS antigo.",
+        "deprecatedAt": "2026-06-12",
+        "reason": "Substituído utilizando chaves serializáveis completas e type-safe navigation em Kotlin.",
+        "replacedBy": "RULE-002"
+      }
+    ]
+  },
+  "ruleHistory": {
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "ruleHistory": [
+      {
+        "date": "2026-06-11",
+        "ruleId": "RULE-001",
+        "action": "CREATED",
+        "details": "Regra inicial contra vazamento de persistência de dados para o Compose Canvas."
+      },
+      {
+        "date": "2026-06-11",
+        "ruleId": "RULE-002",
+        "action": "CREATED",
+        "details": "Regra de acoplamento inter-features ativada sob contratos estritamente rígidos."
+      },
+      {
+        "date": "2026-06-12",
+        "ruleId": "LEGACY-RULE-101",
+        "action": "DEPRECATED",
+        "details": "Depreciação de bloqueios antigos de navegação."
+      },
+      {
+        "date": "2026-06-12",
+        "ruleId": "RULE-003",
+        "action": "CREATED",
+        "details": "Validadores circulares visando displays de reformatagem de insets adicionados ao layout."
+      },
+      {
+        "date": "2026-06-12",
+        "ruleId": "RULE-004",
+        "action": "CREATED",
+        "details": "Ativação de barreiras de conferência de tamanho físico clicável mínimo de componentes."
+      },
+      {
+        "date": "2026-06-13",
+        "ruleId": "RULE-005",
+        "action": "CREATED",
+        "details": "Inclusão estrita do padrão nominal para classes da ViewModel."
+      }
+    ]
+  },
+  "snapshotIndex": {
+    "lastUpdated": "2026-06-13T12:00:00Z",
+    "snapshots": [
+      {
+        "version": "v0.5.0",
+        "date": "2026-06-11",
+        "path": "snapshots/v0.5.0/",
+        "checksum": "sha256-abc123xyz",
+        "status": "ARCHIVED",
+        "comments": "Marco inicial do sistema de modularização."
+      },
+      {
+        "version": "v0.6.0",
+        "date": "2026-06-12",
+        "path": "snapshots/v0.6.0/",
+        "checksum": "sha256-def456uvw",
+        "status": "ARCHIVED",
+        "comments": "Implementação do sistema central de notificações e controle real."
+      },
+      {
+        "version": "v0.7.0",
+        "date": "2026-06-12",
+        "path": "snapshots/v0.7.0/",
+        "checksum": "sha256-ghi789rst",
+        "status": "ARCHIVED",
+        "comments": "Migração completa das permissões para o sistema unificado."
+      },
+      {
+        "version": "v0.8.0",
+        "date": "2026-06-13",
+        "path": "snapshots/v0.8.0/",
+        "checksum": "sha256-jkl012opq",
+        "status": "ARCHIVED",
+        "comments": "Homologação do Dashboard interativo de qualidade."
+      },
+      {
+        "version": "v0.9.0",
+        "date": "2026-06-13",
+        "path": "snapshots/v0.9.0/",
+        "checksum": "sha256-mno345lmn",
+        "status": "ARCHIVED",
+        "comments": "Separação física completa do ecossistema de memória."
+      }
+    ]
+  }
+}

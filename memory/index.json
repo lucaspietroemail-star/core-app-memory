@@ -1,0 +1,26 @@
+{
+  "directory": "memory",
+  "description": "Banco de dados estruturado do AIS para acompanhamento de maturidade e memórias de erros de arquitetura.",
+  "files": [
+    {
+      "name": "architectural-memory.json",
+      "type": "json",
+      "description": "Registro incremental e estruturado de violações, correções aplicadas, padrões e regras aprendidas ao longo do ciclo de vida."
+    },
+    {
+      "name": "dashboard-history.json",
+      "type": "json",
+      "description": "Histórico compilado de pontuação de conformidade e status das builds do aplicativo por build/versão."
+    },
+    {
+      "name": "module-maturity.json",
+      "type": "json",
+      "description": "Quadro de maturidade e status de bloqueio dos módulos Android por classificação de ciclo."
+    },
+    {
+      "name": "memory-version.json",
+      "type": "json",
+      "description": "Metadados de versionamento do esquema de armazenamento da memória."
+    }
+  ]
+}

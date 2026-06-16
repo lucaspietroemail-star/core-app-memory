@@ -1,0 +1,36 @@
+{
+  "lastUpdated": "2026-06-13T12:30:00Z",
+  "modules": {
+    "feature-launcher": "STABLE",
+    "feature-drawer": "STABLE",
+    "feature-notifications": "STABLE",
+    "feature-media": "MIGRATION",
+    "feature-settings": "PROTECTED",
+    "feature-sensors": "LEGACY",
+    "feature-debug": "PROTECTED"
+  },
+  "history": [
+    {
+      "date": "2026-06-11",
+      "module": "feature-launcher",
+      "from": "LEGACY",
+      "to": "STABLE",
+      "justification": "Modularizacao da base da interface circular e Honeycomb App Drawer."
+    },
+    {
+      "date": "2026-06-12",
+      "module": "feature-settings",
+      "from": "MIGRATION",
+      "to": "PROTECTED",
+      "justification": "Completa cobertura de qualidade e desacoplamento absoluto sob a ADR-0004."
+    },
+    {
+      "date": "2026-06-12",
+      "username": "actions@github.com",
+      "module": "feature-debug",
+      "from": "LEGACY",
+      "to": "PROTECTED",
+      "justification": "Implementacao de barreira protetora contra vazamento de mocks e simuladores em modo de producao."
+    }
+  ]
+}

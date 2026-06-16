@@ -1,0 +1,12 @@
+{
+  "targetDir": "core-app-memory/ais/adr/",
+  "healthStatus": "GOOD",
+  "issues": [
+    {
+      "type": "WARNING",
+      "message": "Legacy ADRs have been consolidated, but new ADR generation requires strict format checking and template application."
+    }
+  ],
+  "duplicateIds": 0,
+  "conflictingDecisions": 0
+}

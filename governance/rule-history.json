@@ -1,0 +1,41 @@
+{
+  "lastUpdated": "2026-06-13T12:00:00Z",
+  "ruleHistory": [
+    {
+      "date": "2026-06-11",
+      "ruleId": "RULE-001",
+      "action": "CREATED",
+      "details": "Regra inicial contra vazamento de persistência de dados para o Compose Canvas."
+    },
+    {
+      "date": "2026-06-11",
+      "ruleId": "RULE-002",
+      "action": "CREATED",
+      "details": "Regra de acoplamento inter-features ativada sob contratos estritamente rígidos."
+    },
+    {
+      "date": "2026-06-12",
+      "ruleId": "LEGACY-RULE-101",
+      "action": "DEPRECATED",
+      "details": "Depreciação de bloqueios antigos de navegação."
+    },
+    {
+      "date": "2026-06-12",
+      "ruleId": "RULE-003",
+      "action": "CREATED",
+      "details": "Validadores circulares visando displays de reformatagem de insets adicionados ao layout."
+    },
+    {
+      "date": "2026-06-12",
+      "ruleId": "RULE-004",
+      "action": "CREATED",
+      "details": "Ativação de barreiras de conferência de tamanho físico clicável mínimo de componentes."
+    },
+    {
+      "date": "2026-06-13",
+      "ruleId": "RULE-005",
+      "action": "CREATED",
+      "details": "Inclusão estrita do padrão nominal para classes da ViewModel."
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "systemName": "Wear OS Hybrid Modular System",
+  "blueprintVersion": "1.0.0",
+  "requiredLayers": [
+    "ui",
+    "vm",
+    "state",
+    "domain",
+    "data",
+    "di"
+  ],
+  "layerSpecifications": {
+    "ui": {
+      "allowedImports": [
+        "androidx.compose",
+        "com.example.designsystem",
+        "androidx.wear"
+      ],
+      "forbiddenImports": [
+        "com.example.data",
+        "javax.inject.Inject",
+        "com.example.domain.repository"
+      ],
+      "mandatoryFileSuffixes": ["Screen", "Content", "Overlay", "Widget"]
+    },
+    "vm": {
+      "allowedImports": [
+        "kotlinx.coroutines",
+        "com.example.domain.usecase"
+      ],
+      "forbiddenImports": [
+        "androidx.compose",
+        "com.example.data"
+      ],
+      "mandatoryFileSuffixes": ["ViewModel"]
+    },
+    "state": {
+      "allowedImports": [],
+      "forbiddenImports": [
+        "com.example.domain.repository",
+        "com.example.data",
+        "androidx.compose"
+      ],
+      "mandatoryFileSuffixes": ["UiState", "Action", "Event"]
+    },
+    "domain": {
+      "allowedImports": [],
+      "forbiddenImports": [
+        "android.",
+        "androidx.",
+        "com.example.data",
+        "com.google.firebase"
+      ],
+      "mandatoryFileSuffixes": ["UseCase", "Repository", "Model"]
+    },
+    "data": {
+      "allowedImports": [
+        "androidx.room",
+        "retrofit2",
+        "okhttp3"
+      ],
+      "forbiddenImports": [
+        "androidx.compose",
+        "com.example.ui"
+      ],
+      "mandatoryFileSuffixes": ["RepositoryImpl", "DataSource", "Dao", "Database"]
+    },
+    "di": {
+      "allowedImports": [
+        "dagger.Module",
+        "dagger.Provides",
+        "dagger.hilt"
+      ],
+      "forbiddenImports": [
+        "androidx.compose"
+      ],
+      "mandatoryFileSuffixes": ["Module"]
+    }
+  }
+}

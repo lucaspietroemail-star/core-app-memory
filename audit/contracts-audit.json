@@ -1,0 +1,12 @@
+{
+  "targetFile": "core-app-memory/ais/governance/architecture-contracts.json",
+  "healthStatus": "GOOD",
+  "issues": [
+    {
+      "type": "WARNING",
+      "message": "Some feature contracts do not specify explicitly handled events, which could lead to weak bounds on domain-event observers."
+    }
+  ],
+  "orphanedContracts": 0,
+  "invalidRules": 0
+}

@@ -1,0 +1,54 @@
+{
+  "lastUpdated": "2026-06-13T12:00:00Z",
+  "roadmap": {
+    "feature-settings": {
+      "currentMaturity": "PROTECTED",
+      "targetMaturity": "PROTECTED",
+      "status": "COMPLETED",
+      "quarter": "Q2-2026",
+      "notes": "Desacoplamento absoluto completo e cobertura de testes visuais assegurada."
+    },
+    "feature-launcher": {
+      "currentMaturity": "STABLE",
+      "targetMaturity": "PROTECTED",
+      "status": "IN_PROGRESS",
+      "quarter": "Q2-2026",
+      "notes": "Migração em andamento para a proteção máxima contra desvios de imports e insets circulares."
+    },
+    "feature-drawer": {
+      "currentMaturity": "STABLE",
+      "targetMaturity": "STABLE",
+      "status": "COMPLETED",
+      "quarter": "Q2-2026",
+      "notes": "Modularização modularizada e estabilizada de rolagem de listagens Circular Honeycomb."
+    },
+    "feature-notifications": {
+      "currentMaturity": "STABLE",
+      "targetMaturity": "PROTECTED",
+      "status": "PLANNED",
+      "quarter": "Q3-2026",
+      "notes": "Planejando substituição de subsrições manuais por UI StateFlows coletados de forma segura."
+    },
+    "feature-media": {
+      "currentMaturity": "MIGRATION",
+      "targetMaturity": "STABLE",
+      "status": "IN_PROGRESS",
+      "quarter": "Q2-2026",
+      "notes": "Finalização do player dinâmico com ripples e mocks de rádio do hardware Wear OS."
+    },
+    "feature-sensors": {
+      "currentMaturity": "LEGACY",
+      "targetMaturity": "STABLE",
+      "status": "PLANNED",
+      "quarter": "Q3-2026",
+      "notes": "Re-arquitetura completa de acoplamentos físicos de hardware do relógio substituindo por mappers de UseCase puros."
+    },
+    "feature-debug": {
+      "currentMaturity": "PROTECTED",
+      "targetMaturity": "PROTECTED",
+      "status": "COMPLETED",
+      "quarter": "Q2-2026",
+      "notes": "Garantida blindagem contra vazamento de simuladores e mocks em builds produtivas de mercado."
+    }
+  }
+}

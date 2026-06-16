@@ -1,0 +1,31 @@
+{
+  "directory": "reports",
+  "description": "Relatórios consolidados gerados por scripts de análise estática do AIS durante a verificação de sanidade no Quality Gate.",
+  "files": [
+    {
+      "name": "combined-state.json",
+      "type": "json",
+      "description": "Estado consolidado e integral do Architecture Intelligence System (AIS)."
+    },
+    {
+      "name": "lint-report.json",
+      "type": "json",
+      "description": "Fichas individuais detalhando violações estruturais ou desvios de arquitetura por arquivo."
+    },
+    {
+      "name": "dependency-report.json",
+      "type": "json",
+      "description": "Análise estática de dependências detectadas e conformidade com regras de barreira."
+    },
+    {
+      "name": "breaking-change-report.json",
+      "type": "json",
+      "description": "Relatório de mudanças que quebram contratos, calculando o risco com base no módulo."
+    },
+    {
+      "name": "final-architecture-report.md",
+      "type": "markdown",
+      "description": "Relatório executivo final em linguagem natural e tabelas explicadas para desenvolvedores e arquitetos."
+    }
+  ]
+}
