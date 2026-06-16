@@ -20,13 +20,41 @@ document.addEventListener('DOMContentLoaded', () => {
           targetPane.classList.add('active');
       }
       
-      pageTitle.textContent = clickedLink.textContent.replace(/[^\w\s]/gi, '').trim();
+      // Clean emoji of title and preserve accented characters (pt-BR)
+      pageTitle.textContent = clickedLink.textContent.replace(/^[\s\p{Emoji}📈💡🗂️📦⏱️🗺️🤖🧠📖🏥⚠️📜⏳🟢🔴]+/gu, '').trim();
     });
   });
 
   // Safe initialization of dashboard
   initDashboard();
 });
+
+/**
+ * Normalizes status values based on the requested rules:
+ * ONLINE -> 🟢 Online
+ * OFFLINE -> 🔴 Offline
+ * FAILED -> ⚠️ Erro
+ * LOADING -> ⏳ Carregando
+ */
+function formatStatusLabel(status) {
+  if (!status) return '⏳ Carregando';
+  const uStatus = status.toString().trim().toUpperCase();
+  if (uStatus === 'ONLINE' || uStatus === 'PASSED' || uStatus === 'APPROVED' || uStatus === 'SUCESSO' || uStatus === 'SUCCESS') {
+    return '🟢 Online';
+  }
+  if (uStatus === 'OFFLINE' || uStatus === 'DESCONECTADO' || uStatus === 'DISCONNECTED') {
+    return '🔴 Offline';
+  }
+  if (uStatus === 'FAILED' || uStatus === 'BLOCKED' || uStatus === 'ERRO' || uStatus === 'ERROR' || uStatus === 'DANGER' || uStatus === 'PERIGO') {
+    return '⚠️ Erro';
+  }
+  if (uStatus === 'LOADING' || uStatus === 'CARREGANDO' || uStatus === 'PROCESSANDO' || uStatus === 'PROCESSING') {
+    return '⏳ Carregando';
+  }
+  // Generic fallback checks
+  if (uStatus === 'UNKNOWN') return '⏳ Carregando';
+  return status;
+}
 
 /**
  * Normalizes state data to protect against undefined errors, supporting both old and new schemas.
@@ -243,9 +271,9 @@ function initDashboard() {
       if (statBanner) {
         statBanner.style.display = 'block';
         statBanner.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
-        statBanner.style.color = '#ef4444';
-        statBanner.style.border = '1px solid #ef4444';
-        statBanner.textContent = '⚠️ STATE RETRIEVAL ERROR: Fallback default loaded';
+        statBanner.style.color = '#f87171';
+        statBanner.style.border = '1px solid #f87171';
+        statBanner.textContent = '⚠️ ERRO DE LEITURA DO ESTADO: Fallback padrão carregado de forma offline';
       }
     });
 }
@@ -261,21 +289,21 @@ function populateDashboard(data) {
     if (status === 'BLOCKED') {
       statBanner.style.display = 'block';
       statBanner.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
-      statBanner.style.color = '#ef4444';
-      statBanner.style.border = '1px solid #ef4444';
-      statBanner.textContent = '❌ BUILD BLOCKED (Architecture Violations)';
+      statBanner.style.color = '#f87171';
+      statBanner.style.border = '1px solid #f87171';
+      statBanner.textContent = '⚠️ Erro (Compilação Bloqueada)';
     } else if (status === 'APPROVED' || status === 'PASSED') {
       statBanner.style.display = 'block';
-      statBanner.style.backgroundColor = 'rgba(16, 185, 129, 0.2)';
-      statBanner.style.color = '#10b981';
-      statBanner.style.border = '1px solid #10b981';
-      statBanner.textContent = '✅ ARCHITECTURE PASSED';
+      statBanner.style.backgroundColor = 'rgba(74, 222, 128, 0.2)';
+      statBanner.style.color = '#4ade80';
+      statBanner.style.border = '1px solid #4ade80';
+      statBanner.textContent = '🟢 Online (Arquitetura Aprovada)';
     } else {
       statBanner.style.display = 'block';
-      statBanner.style.backgroundColor = 'rgba(115, 115, 115, 0.2)';
-      statBanner.style.color = '#a3a3a3';
-      statBanner.style.border = '1px solid #a3a3a3';
-      statBanner.textContent = `⚪ MODULE STATE: ${status}`;
+      statBanner.style.backgroundColor = 'rgba(63, 63, 70, 0.3)';
+      statBanner.style.color = '#cbd5e1';
+      statBanner.style.border = '1px solid #27272a';
+      statBanner.textContent = `⏳ Carregando Estado: ${status}`;
     }
   }
 
@@ -288,36 +316,46 @@ function populateDashboard(data) {
   if (scoreEl) scoreEl.textContent = score + '%';
 
   const lintEl = document.getElementById('health-lint');
-  if (lintEl) lintEl.textContent = data.lintReport?.status ?? 'UNKNOWN';
+  if (lintEl) {
+    const rawStatus = data.lintReport?.status ?? 'UNKNOWN';
+    lintEl.textContent = formatStatusLabel(rawStatus === 'PASSED' ? 'ONLINE' : (rawStatus === 'UNKNOWN' ? 'LOADING' : (rawStatus === 'FAILED' ? 'FAILED' : rawStatus)));
+  }
 
   const depEl = document.getElementById('health-dep');
-  if (depEl) depEl.textContent = data.dependencyReport?.status ?? 'UNKNOWN';
+  if (depEl) {
+    const rawStatus = data.dependencyReport?.status ?? 'UNKNOWN';
+    depEl.textContent = formatStatusLabel(rawStatus === 'PASSED' ? 'ONLINE' : (rawStatus === 'UNKNOWN' ? 'LOADING' : (rawStatus === 'FAILED' ? 'FAILED' : rawStatus)));
+  }
 
   // Count active technical debts safely
   let totalDebtCount = 0;
   const debtTbody = document.querySelector('#debt-table tbody');
   if (debtTbody) {
     debtTbody.innerHTML = ''; // Keep safe, clear previous rows
-    const tdMap = data.technicalDebt?.technicalDebt ?? {};
-    Object.entries(tdMap).forEach(([mod, items]) => {
+    
+    const debts = data.technicalDebt?.technicalDebt || {};
+    Object.entries(debts).forEach(([mod, items]) => {
       if (Array.isArray(items)) {
-        items.forEach(item => {
+        items.forEach(debt => {
           totalDebtCount++;
           const tr = document.createElement('tr');
+          const severity = debt.severity ?? 'MEDIUM';
+          const severityClass = severity.toLowerCase() === 'high' ? 'critical' : (severity.toLowerCase() === 'medium' ? 'medium' : 'low');
+          
           tr.innerHTML = `
-            <td><code>${mod}</code></td>
-            <td>${item?.description ?? "No details available"}</td>
-            <td><span class="badge ${(item?.severity ?? 'LOW').toLowerCase()}">${item?.severity ?? 'LOW'}</span></td>
-            <td>${item?.createdAt ?? 'N/A'}</td>
+            <td><span class="badge" style="background:#121214; color:#fff; border:1px solid var(--border); font-size:0.82rem;">${mod}</span></td>
+            <td style="color:#f4f4f5; font-size:0.88rem; line-height:1.4;">${debt.description ?? debt.title ?? 'Dívida técnica não preenchida'}</td>
+            <td><span class="badge ${severityClass}">${severity.toUpperCase()}</span></td>
+            <td><span style="font-size:0.82rem; color:var(--text-muted);">${debt.age ?? 'N/A'}</span></td>
           `;
           debtTbody.appendChild(tr);
         });
       }
     });
-    
+
     if (totalDebtCount === 0) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="4" style="text-align:center; color:var(--text-muted);">No open technical debt items found! Clean build.</td>`;
+      tr.innerHTML = `<td colspan="4" style="text-align:center; color:var(--text-muted); font-size:0.85rem; padding:1.5rem;">Nenhum item de dívida técnica em aberto! Compilação limpa.</td>`;
       debtTbody.appendChild(tr);
     }
   }
@@ -334,22 +372,22 @@ function populateDashboard(data) {
     
     entries.forEach(([mod, info]) => {
       const maturity = info?.maturity ?? 'UNKNOWN';
-      const risk = maturity === 'STABLE' ? 'LOW' : (maturity === 'MIGRATION' ? 'MEDIUM' : 'HIGH'); 
-      if (risk === 'CRITICAL') criticalCount++;
+      const risk = maturity === 'STABLE' ? 'BAIXO' : (maturity === 'MIGRATION' ? 'MÉDIO' : 'ALTO'); 
+      if (risk === 'ALTO') criticalCount++;
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td><strong>${mod}</strong></td>
         <td><span class="badge ${maturity.toLowerCase()}">${maturity}</span></td>
-        <td><span class="badge ${risk.toLowerCase()}">${risk}</span></td>
+        <td><span class="badge ${risk === 'BAIXO' ? 'low' : (risk === 'MÉDIO' ? 'medium' : 'critical')}">${risk}</span></td>
         <td>${info?.lastAudited ?? 'N/A'}</td>
-        <td><span style="color:var(--success)">Conforme</span></td>
+        <td><span style="color:var(--success); font-weight:600; font-size:0.85rem;">Conforme</span></td>
       `;
       modTbody.appendChild(tr);
     });
 
     if (entries.length === 0) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="5" style="text-align:center; color:var(--text-muted);">No modules registered in current state.</td>`;
+      tr.innerHTML = `<td colspan="5" style="text-align:center; color:var(--text-muted); font-size:0.85rem; padding:1.5rem;">Nenhum módulo registrado no estado atual.</td>`;
       modTbody.appendChild(tr);
     }
   }
@@ -360,42 +398,39 @@ function populateDashboard(data) {
   const lintSummaryEl = document.getElementById('health-lint-summary');
   if (lintSummaryEl) {
     const totalViolations = data.lintReport?.summary?.totalViolations ?? 0;
-    lintSummaryEl.textContent = `${totalViolations} violations identified`;
+    lintSummaryEl.textContent = `${totalViolations} violações identificadas`;
   }
 
   const depSummaryEl = document.getElementById('health-dep-summary');
   if (depSummaryEl) {
-    const totalViolations = data.dependencyReport?.totalDependencyViolations ?? 0;
-    depSummaryEl.textContent = `${totalViolations} violations identified`;
+    const totalViolations = data.dependencyReport?.totalDependencyViolations ?? data.dependencyReport?.summary?.totalViolations ?? 0;
+    depSummaryEl.textContent = `${totalViolations} violações identificadas`;
   }
 
-  // 2. Populate ADR (decision) list
+  // 2. Populate Architecture Decisions List (ADRs)
   const adrList = document.getElementById('adr-list');
   if (adrList) {
     adrList.innerHTML = '';
     const decisions = data.decisions?.architectural_decisions || [];
     decisions.forEach(dec => {
       const li = document.createElement('li');
-      li.style.listStyle = 'none';
-      li.style.marginBottom = '1.25rem';
-      li.style.padding = '1.2rem';
-      li.style.background = 'rgba(30, 41, 59, 0.4)';
-      li.style.border = '1px solid #334155';
-      li.style.borderRadius = '8px';
+      li.style.marginBottom = '1rem';
+      
+      const badgeStyle = (dec.status ?? 'APPROVED').toUpperCase() === 'APPROVED' ? 'low' : 'medium';
       
       li.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
-          <strong style="color:#60a5fa; font-size:1.05rem;">${dec.id}: ${dec.topic}</strong>
-          <span class="badge ${dec.status?.toLowerCase() ?? 'approved'}">${dec.status ?? 'APPROVED'}</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.25rem;">
+          <strong style="color:#fff; font-size:0.95rem;">${dec.id ?? 'ADR'}: ${dec.title}</strong>
+          <span class="badge ${badgeStyle}">${dec.status ?? 'APROVADA'}</span>
         </div>
-        <p style="margin: 0.25rem 0; color:#cbd5e1; font-size:0.92rem; line-height:1.4;">${dec.description}</p>
-        <p style="margin: 0.5rem 0 0 0; color:#94a3b8; font-size:0.85rem; line-height:1.4;"><strong>Rationale:</strong> ${dec.rationale || 'N/A'}</p>
-        <div style="font-size:0.78rem; color:#64748b; margin-top:0.6rem; text-align:right;">Evaluated on: ${dec.date}</div>
+        <p style="margin:0 0 0.25rem 0; font-size:0.85rem; color:var(--text-muted); line-height:1.45;">${dec.decision ?? 'Nenhuma descrição estipulada'}</p>
+        <span style="font-size:0.75rem; color:var(--primary); font-weight:bold;">Módulo: ${dec.module || 'Global'}</span>
       `;
       adrList.appendChild(li);
     });
+
     if (decisions.length === 0) {
-      adrList.innerHTML = `<li style="text-align:center; color:var(--text-muted); list-style:none; padding:1.5rem;">No architecture decisions registered inside active systems.</li>`;
+      adrList.innerHTML = `<li style="text-align:center; color:var(--text-muted); list-style:none; padding:1.5rem; font-size:0.85rem;">Nenhuma decisão de arquitetura registrada nos sistemas ativos.</li>`;
     }
   }
 
@@ -403,40 +438,25 @@ function populateDashboard(data) {
   const timelineList = document.getElementById('timeline-list');
   if (timelineList) {
     timelineList.innerHTML = '';
-    const history = data.scoreHistory || [];
-    history.forEach(item => {
+    const scoreHistory = data.scoreHistory || [];
+    scoreHistory.forEach(item => {
       const li = document.createElement('li');
-      li.style.listStyle = 'none';
-      li.style.marginBottom = '1.2rem';
-      li.style.paddingLeft = '1.5rem';
-      li.style.borderLeft = '3px solid #3b82f6';
-      li.style.position = 'relative';
-      
-      const dot = document.createElement('div');
-      dot.style.position = 'absolute';
-      dot.style.left = '-7px';
-      dot.style.top = '5px';
-      dot.style.width = '11px';
-      dot.style.height = '11px';
-      dot.style.borderRadius = '50%';
-      dot.style.background = item.score >= 95 ? '#10b981' : (item.score >= 80 ? '#3b82f6' : '#ef4444');
-      li.appendChild(dot);
-      
-      li.innerHTML += `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
-          <strong style="color:#f8fafc; font-size:1rem;">Version ${item.version}</strong>
-          <span style="font-size:0.82rem; color:#64748b;">${item.date}</span>
+      li.style.marginBottom = '0.8rem';
+      li.innerHTML = `
+        <div style="display:flex; justify-content:space-between;">
+          <strong style="color:#fff; font-size:0.9rem;">Versão ${item.version ?? '0.0.0'} (${item.releaseChannel || 'Beta'})</strong>
+          <span style="color:var(--text-muted); font-size:0.82rem;">${item.date ?? 'N/A'}</span>
         </div>
-        <div style="display:flex; gap:1.5rem; margin-top:0.3rem; font-size:0.85rem;">
-          <span style="color:#94a3b8;">Score: <strong style="color:#60a5fa;">${item.score}%</strong></span>
-          ${item.errors !== undefined ? `<span style="color:#94a3b8;">Errors: <strong style="color:#ef4444;">${item.errors}</strong></span>` : ''}
-          ${item.warnings !== undefined ? `<span style="color:#94a3b8;">Warnings: <strong style="color:#f59e0b;">${item.warnings}</strong></span>` : ''}
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.25rem;">
+          <span style="color:#a1a1aa; font-size:0.82rem;">Total de Arquivos Mapeados: ${item.scannedFiles ?? 0}</span>
+          <span class="badge approved">Score: ${item.score ?? 0}%</span>
         </div>
       `;
       timelineList.appendChild(li);
     });
-    if (history.length === 0) {
-      timelineList.innerHTML = `<li style="text-align:center; color:var(--text-muted); list-style:none;">No release certifications tracked in history logs.</li>`;
+
+    if (scoreHistory.length === 0) {
+      timelineList.innerHTML = `<li style="text-align:center; color:var(--text-muted); list-style:none; font-size:0.85rem; padding:1.5rem;">Nenhuma certificação de lançamento rastreada nos logs de histórico.</li>`;
     }
   }
 
@@ -460,7 +480,7 @@ function populateDashboard(data) {
     });
     if (violations.length === 0) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="3" style="text-align:center; color:var(--text-muted); padding:1rem;">No dependency violations found. Beautifully modular system architecture!</td>`;
+      tr.innerHTML = `<td colspan="3" style="text-align:center; color:var(--text-muted); padding:1rem; font-size:0.85rem;">Nenhuma violação de dependência encontrada. Arquitetura de sistema belamente modular!</td>`;
       bdepTbody.appendChild(tr);
     }
   }
@@ -476,13 +496,13 @@ function populateDashboard(data) {
       tr.innerHTML = `
         <td><span class="badge ${sev.toLowerCase()}">${sev.toUpperCase()}</span></td>
         <td><code>${f.module ?? 'N/A'}</code></td>
-        <td style="color:#cbd5e1; font-size:0.88rem; line-height:1.4;">${f.message ?? f.description ?? 'Anomaly identified'}</td>
+        <td style="color:#cbd5e1; font-size:0.88rem; line-height:1.4;">${f.message ?? f.description ?? 'Anomalia identificada'}</td>
       `;
       bbcTbody.appendChild(tr);
     });
     if (findings.length === 0) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="3" style="text-align:center; color:var(--text-muted); padding:1rem;">No structural anomalies or breaking layer configurations detected.</td>`;
+      tr.innerHTML = `<td colspan="3" style="text-align:center; color:var(--text-muted); padding:1rem; font-size:0.85rem;">Nenhuma anomalia estrutural ou configuração de quebra de camada detectada.</td>`;
       bbcTbody.appendChild(tr);
     }
   }
@@ -509,34 +529,35 @@ function populateArchiveTelemetrySystem(data) {
   const focus = archData.currentFocus || {};
   const focusPriorityEl = document.getElementById('focus-priority');
   if (focusPriorityEl) {
-    focusPriorityEl.textContent = `${focus.priority ?? 'HIGH'} PRIORITY`;
-    focusPriorityEl.className = `badge ${focus.priority?.toLowerCase() === 'high' ? 'danger' : 'warning'}`;
+    const rawPriority = focus.priority ?? 'HIGH';
+    focusPriorityEl.textContent = rawPriority === 'HIGH' ? 'ALTA PRIORIDADE' : 'MÉDIA PRIORIDADE';
+    focusPriorityEl.className = `badge ${rawPriority.toLowerCase() === 'high' ? 'danger' : 'warning'}`;
   }
   const focusObjectiveEl = document.getElementById('focus-objective');
   if (focusObjectiveEl) {
-    focusObjectiveEl.textContent = focus.currentObjective ?? "Enable automated knowledge archives, file catalogs, and Google AI Studio action logging.";
+    focusObjectiveEl.textContent = focus.currentObjective ?? "Habilitar arquivos inteligentes automatizados, inventário de arquivos e registros de ações do Google AI Studio.";
   }
   const focusFeatureEl = document.getElementById('focus-feature');
   if (focusFeatureEl) {
-    focusFeatureEl.textContent = focus.activeFeature ?? "Wear Core Intelligence Archive System";
+    focusFeatureEl.textContent = focus.activeFeature ?? "Sistema de Arquivamento Inteligente do Wear Core";
   }
   const focusBlockersEl = document.getElementById('focus-blockers');
   if (focusBlockersEl) {
-    focusBlockersEl.textContent = focus.blockages ?? "None. System structures are compiling cleanly.";
+    focusBlockersEl.textContent = focus.blockages ?? "Nenhum. Todo o sistema de módulos está compilando de forma limpa.";
   }
 
   const focusStepsEl = document.getElementById('focus-steps');
   if (focusStepsEl) {
     focusStepsEl.innerHTML = '';
     const steps = focus.nextSteps || [
-      "Construct responsive visual pages on AIS dashboard depicting file explorer and AI actions database.",
-      "Ensure fully preloaded high-fidelity state-export and knowledge-export JSON downloads.",
-      "Demonstrate zero code regression using unified module rules."
+      "Construir visualizações de páginas responsivas no painel AIS apresentando explorador de arquivos e ações de IA.",
+      "Garantir downloads seguros pré-carregados das saídas em JSON state-export e knowledge-export.",
+      "Demonstrar regressão zero código utilizando regras consolidadas do sistema."
     ];
     steps.forEach(st => {
       const li = document.createElement('li');
       li.style.marginBottom = '0.4rem';
-      li.innerHTML = `<strong>[Pending]</strong> ${st}`;
+      li.innerHTML = `<strong>[Pendente]</strong> ${st}`;
       focusStepsEl.appendChild(li);
     });
   }
@@ -578,7 +599,7 @@ function populateArchiveTelemetrySystem(data) {
 
     if (filtered.length === 0) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="6" style="text-align:center; color:var(--text-muted); padding:1.5rem;">No files matched the search filter term.</td>`;
+      tr.innerHTML = `<td colspan="6" style="text-align:center; color:var(--text-muted); padding:1.5rem; font-size:0.85rem;">Nenhum arquivo corresponde ao termo do filtro de busca.</td>`;
       explorerTbody.appendChild(tr);
     }
   };
@@ -625,10 +646,23 @@ function populateArchiveTelemetrySystem(data) {
     
     fileHistory.reverse().forEach(ev => {
       const tr = document.createElement('tr');
-      const actionBadgeColor = ev.action === 'CREATION' ? '#10b981' : (ev.action === 'DELETION' ? '#ef4444' : '#3b82f6');
+      
+      let actionTranslated = ev.action;
+      let actionBadgeColor = '#3b82f6';
+      if (ev.action === 'CREATION') {
+        actionTranslated = 'CRIAÇÃO';
+        actionBadgeColor = '#10b981';
+      } else if (ev.action === 'DELETION') {
+        actionTranslated = 'EXCLUSÃO';
+        actionBadgeColor = '#ef4444';
+      } else if (ev.action === 'MODIFICATION') {
+        actionTranslated = 'EDIÇÃO';
+        actionBadgeColor = '#c084fc';
+      }
+
       tr.innerHTML = `
         <td style="font-size:0.82rem; color:#64748b; white-space:nowrap;">${new Date(ev.timestamp).toLocaleString()}</td>
-        <td><span class="badge" style="background:${actionBadgeColor}; color:#fff; font-size:0.75rem;">${ev.action}</span></td>
+        <td><span class="badge" style="background:${actionBadgeColor}; color:#fff; font-size:0.75rem;">${actionTranslated}</span></td>
         <td><code style="color:#60a5fa; font-size:0.85rem;">${ev.path}</code></td>
         <td style="font-weight:600; color:#cbd5e1; font-size:0.85rem;">${ev.author}</td>
         <td style="color:#cbd5e1; font-size:0.88rem; line-height:1.4;">${ev.description}</td>
@@ -638,7 +672,7 @@ function populateArchiveTelemetrySystem(data) {
 
     if (fileHistory.length === 0) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="5" style="text-align:center; color:var(--text-muted); padding:1rem;">No file modifications logged in this session yet. Execute file operations to view history.</td>`;
+      tr.innerHTML = `<td colspan="5" style="text-align:center; color:var(--text-muted); padding:1rem; font-size:0.85rem;">Nenhuma modificação de arquivo registrada nesta sessão ainda. Execute operações nos arquivos para visualizar o histórico.</td>`;
       fileHistoryTbody.appendChild(tr);
     }
   }
@@ -669,17 +703,17 @@ function populateArchiveTelemetrySystem(data) {
       
       li.innerHTML += `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
-          <strong style="color:#f8fafc; font-size:0.95rem;">Module Action / Structure Update</strong>
+          <strong style="color:#f8fafc; font-size:0.95rem;">Atualização de Estrutura Física / Pasta</strong>
           <span style="font-size:0.82rem; color:#64748b;">${new Date(item.timestamp).toLocaleString()}</span>
         </div>
         <p style="margin: 0.25rem 0; color:#cbd5e1; font-size:0.9rem; line-height:1.4;">${item.description}</p>
-        <span class="badge" style="background:#1e293b; color:#10b981; border:1px solid #10b981; font-size:0.75rem;">${item.module || 'root'}</span>
+        <span class="badge" style="background:#121214; color:#10b981; border:1px solid #10b981; font-size:0.75rem;">Módulo: ${item.module || 'root'}</span>
       `;
       structureTimelineEl.appendChild(li);
     });
 
     if (timeline.length === 0) {
-      structureTimelineEl.innerHTML = `<li style="text-align:center; color:var(--text-muted); list-style:none;">No structural reorganizations recorded yet.</li>`;
+      structureTimelineEl.innerHTML = `<li style="text-align:center; color:var(--text-muted); list-style:none; font-size:0.85rem;">Nenhuma reorganização estrutural registrada ainda.</li>`;
     }
   }
 
@@ -702,7 +736,7 @@ function populateArchiveTelemetrySystem(data) {
 
       tr.innerHTML = `
         <td style="font-size:0.82rem; color:#64748b; white-space:nowrap;">${new Date(act.timestamp).toLocaleString()}</td>
-        <td><strong style="color:#ef4444; font-size:0.85rem;"><code>${act.action}</code></strong></td>
+        <td><strong style="color:#f87171; font-size:0.85rem;"><code>${act.action}</code></strong></td>
         <td>
           <div style="margin-bottom:0.4rem;">${modulesBadges}</div>
           <div style="max-height:100px; overflow-y:auto;">${filesFormat}</div>
@@ -716,7 +750,7 @@ function populateArchiveTelemetrySystem(data) {
 
     if (aiActions.length === 0) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="6" style="text-align:center; color:var(--text-muted); padding:1rem;">No AI Studio actions cataloged.</td>`;
+      tr.innerHTML = `<td colspan="6" style="text-align:center; color:var(--text-muted); padding:1rem; font-size:0.85rem;">Nenhuma ação do Google AI Studio catalogada.</td>`;
       aiActionsTbody.appendChild(tr);
     }
   }
@@ -739,11 +773,11 @@ function populateArchiveTelemetrySystem(data) {
     const knowledgeVersions = archData.versionedCatalog.filter(c => c.type === 'knowledge');
     
     // Clear and build options
-    verSelect.innerHTML = '<option value="">Latest Live Runtime State</option>';
+    verSelect.innerHTML = '<option value="">Último Estado em Tempo de Execução</option>';
     knowledgeVersions.forEach(v => {
       const opt = document.createElement('option');
       opt.value = v.version;
-      opt.textContent = `Version ${v.version} Archive Snapshot`;
+      opt.textContent = `Versão ${v.version} (Instantâneo do Histórico)`;
       verSelect.appendChild(opt);
     });
 
@@ -754,10 +788,10 @@ function populateArchiveTelemetrySystem(data) {
       
       if (!val) {
         knowledgeRawEl.textContent = JSON.stringify(archData.knowledgeExportSnapshot, null, 2);
-        if (knowledgeTitleEl) knowledgeTitleEl.textContent = "Active knowledge-export.json Payload Dynamic Content";
+        if (knowledgeTitleEl) knowledgeTitleEl.textContent = "Conteúdo do Arquivo de Conhecimento: wear-core-knowledge-export.json";
       } else {
         const historicalUrl = resolveAisUrl(`exports/wear-core-knowledge-export-${val}.json`);
-        knowledgeRawEl.textContent = `// Contacting active database to fetch historical snapshot of version ${val}...`;
+        knowledgeRawEl.textContent = `// Contatando o banco inteligente para carregar o instantâneo histórico da versão ${val}...`;
         
         fetch(historicalUrl)
           .then(r => {
@@ -766,10 +800,10 @@ function populateArchiveTelemetrySystem(data) {
           })
           .then(histData => {
             knowledgeRawEl.textContent = JSON.stringify(histData, null, 2);
-            if (knowledgeTitleEl) knowledgeTitleEl.textContent = `Historical wear-core-knowledge-export-${val}.json Archive Payload`;
+            if (knowledgeTitleEl) knowledgeTitleEl.textContent = `Payload Histórico do Lançamento de Arquivos wear-core-knowledge-export-${val}.json`;
           })
           .catch(err => {
-            knowledgeRawEl.textContent = `// Failed to retrieve historical archive of version ${val}\n// Error: ${err.message}\n// File may not be fully synced or is currently undergoing consolidation. Try again.`;
+            knowledgeRawEl.textContent = `// Falha ao obter relatórios históricos na subpasta de versão ${val}\n// Erro: ${err.message}\n// O arquivo pode estar sendo consolidado ou compactado temporariamente no servidor remetente. `;
           });
       }
     });
@@ -826,23 +860,30 @@ function populateWearCoreInsights(data) {
     const issues = insights.issues || [];
     issues.forEach(issue => {
       const tr = document.createElement('tr');
+      
+      let mappedPriorityText = issue.priority;
+      if (issue.priority === 'CRITICAL') mappedPriorityText = 'CRÍTICA';
+      if (issue.priority === 'HIGH') mappedPriorityText = 'ALTA';
+      if (issue.priority === 'MEDIUM') mappedPriorityText = 'MÉDIA';
+      if (issue.priority === 'LOW') mappedPriorityText = 'BAIXA';
+
       const priorityClass = issue.priority === 'CRITICAL' ? 'danger' : (issue.priority === 'HIGH' ? 'warning' : 'info');
       tr.innerHTML = `
-        <td><span class="badge ${priorityClass}" style="font-size:0.75rem; font-weight:bold;">${issue.priority}</span></td>
+        <td><span class="badge ${priorityClass}" style="font-size:0.75rem; font-weight:bold;">${mappedPriorityText}</span></td>
         <td>
           <strong style="color:#f1f5f9; font-size:0.92rem;">${issue.title}</strong>
           <div style="font-size:0.82rem; color:#94a3b8; margin-top:0.25rem;">${issue.description}</div>
         </td>
         <td><span style="font-size:0.85rem; color:#cbd5e1; line-height:1.4;">${issue.impact}</span></td>
         <td><code style="color:#fdba74; font-size:0.82rem;">${issue.cause}</code></td>
-        <td><span style="font-size:0.85rem; color:#34d399; font-weight:500;">See ${issue.id} correction guidelines</span></td>
+        <td><span style="font-size:0.85rem; color:#34d399; font-weight:500;">Ver regras de correção de ${issue.id}</span></td>
       `;
       issuesTbody.appendChild(tr);
     });
 
     if (issues.length === 0) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="5" style="text-align:center; color:var(--text-muted); padding:1.5rem;">✨ Codebase is fully sanitised! No active compliance issues detected.</td>`;
+      tr.innerHTML = `<td colspan="5" style="text-align:center; color:var(--text-muted); padding:1.5rem; font-size:0.85rem;">✨ Todo o sistema está sanitizado! Nenhuma desobediência identificada.</td>`;
       issuesTbody.appendChild(tr);
     }
   }
@@ -863,15 +904,15 @@ function populateWearCoreInsights(data) {
         <td><span class="badge" style="background:#3b82f6; color:#fff; font-size:0.75rem; font-family:monospace;">${corr.issueId}</span></td>
         <td style="color:#f8fafc; font-size:0.88rem; font-weight:500;">${corr.suggestedCorrection}</td>
         <td><span class="badge approved" style="font-size:0.75rem;">${corr.complexity}</span></td>
-        <td><div style="max-height:100px; overflow-y:auto;">${filesFormatted || '<span style="color:#64748b; font-size:0.8rem;">General files</span>'}</div></td>
-        <td style="color:#34d399; font-size:0.85rem; line-height:1.4;"><span style="font-size:1.1rem; vertical-align:middle; margin-right:0.25rem;">⚡</span>${corr.benefitExpected}</td>
+        <td><div style="max-height:100px; overflow-y:auto;">${filesFormatted || '<span style="color:#64748b; font-size:0.8rem;">Geral / Modular</span>'}</div></td>
+        <td style="color:#4ade80; font-size:0.85rem; line-height:1.4;"><span style="font-size:1.1rem; vertical-align:middle; margin-right:0.25rem;">⚡</span>${corr.benefitExpected}</td>
       `;
       correctionsTbody.appendChild(tr);
     });
 
     if (corrections.length === 0) {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="5" style="text-align:center; color:var(--text-muted); padding:1.5rem;">No active corrections needed. Codebase compiles perfectly.</td>`;
+      tr.innerHTML = `<td colspan="5" style="text-align:center; color:var(--text-muted); padding:1.5rem; font-size:0.85rem;">Nenhuma correção ativa recomendada pelo sistema.</td>`;
       correctionsTbody.appendChild(tr);
     }
   }
@@ -883,23 +924,23 @@ function populateWearCoreInsights(data) {
     container.innerHTML = '';
     
     if (!items || items.length === 0) {
-      container.innerHTML = `<div style="color:var(--text-muted); font-size:0.85rem; padding:0.5rem; text-align:center; font-style:italic;">No suggested advancements logged in this category.</div>`;
+      container.innerHTML = `<div style="color:var(--text-muted); font-size:0.85rem; padding:0.5rem; text-align:center; font-style:italic;">Nenhuma evolução lançada para esta categoria.</div>`;
       return;
     }
 
     items.forEach(item => {
       const card = document.createElement('div');
-      card.style.background = '#1e293b';
-      card.style.border = '1px solid #334155';
+      card.style.background = '#18181b';
+      card.style.border = '1px solid var(--border)';
       card.style.padding = '1rem';
-      card.style.borderRadius = '6px';
+      card.style.borderRadius = '8px';
       card.style.transition = 'all 0.2s';
       
       card.innerHTML = `
         <div style="font-weight:600; font-size:0.9rem; color:#fff; margin-bottom:0.25rem;">${item.title}</div>
-        <p style="margin:0 0 0.5rem 0; font-size:0.82rem; color:#94a3b8; line-height:1.4;">${item.description}</p>
-        <span style="font-size:0.75rem; color:#10b981; font-weight:500; display:flex; align-items:center; gap:0.25rem;">
-          <span>🚀 Benefit:</span>
+        <p style="margin:0 0 0.5rem 0; font-size:0.82rem; color:#a1a1aa; line-height:1.4;">${item.description}</p>
+        <span style="font-size:0.75rem; color:#4ade80; font-weight:500; display:flex; align-items:center; gap:0.25rem;">
+          <span>🚀 Benefício:</span>
           <span>${item.benefit}</span>
         </span>
       `;
@@ -930,7 +971,7 @@ function populateWearCoreInsights(data) {
 function populateAiKnowledgeCenterSystem(data) {
   const payloadPre = document.getElementById('ai-index-payload');
   if (payloadPre) {
-    payloadPre.textContent = "// Initiating active discovery fetch of ai-index.json ...";
+    payloadPre.textContent = "// Iniciando mapeamento inteligente ativo na raiz ai-index.json ...";
     const targetUrl = resolveAisUrl('exports/ai-index.json');
     
     fetch(targetUrl)
@@ -945,7 +986,7 @@ function populateAiKnowledgeCenterSystem(data) {
         payloadPre.textContent = JSON.stringify({
           name: "Wear Core AI Knowledge Index",
           status: "Offline",
-          error: "Could not execute active index fetch: " + err.message,
+          error: "Não foi possível carregar a matriz de índice ativo: " + err.message,
           fallback_links: {
             "ai-index": "/exports/ai-index.json",
             "state-export": "/exports/wear-core-state-export.json",
@@ -959,7 +1000,7 @@ function populateAiKnowledgeCenterSystem(data) {
 
   const selector = document.getElementById('knowledge-selector');
   if (selector) {
-    selector.innerHTML = '<option value="">-- Choose Historical Snapshot --</option>';
+    selector.innerHTML = '<option value="">-- Escolher Instantâneo Histórico --</option>';
     
     const archData = data.wearCoreArchive || {};
     const versionedCatalog = archData.versionedCatalog || [];
@@ -969,7 +1010,7 @@ function populateAiKnowledgeCenterSystem(data) {
       knowledgeVersions.forEach(v => {
         const opt = document.createElement('option');
         opt.value = v.version;
-        opt.textContent = `Version ${v.version} Snapshot (${v.date})`;
+        opt.textContent = `Versão ${v.version} Snapshot (${v.date})`;
         selector.appendChild(opt);
       });
     } else {
@@ -978,7 +1019,7 @@ function populateAiKnowledgeCenterSystem(data) {
         const vName = s.version.replace(/^v/, '');
         const opt = document.createElement('option');
         opt.value = vName;
-        opt.textContent = `Version ${vName} Snapshot (${s.date})`;
+        opt.textContent = `Versão ${vName} Snapshot (${s.date})`;
         selector.appendChild(opt);
       });
     }
@@ -1008,8 +1049,8 @@ window.compareMetadataVersions = function(version) {
   document.getElementById('comp-live-score').textContent = currentScore + '%';
   
   document.getElementById('comp-past-ver').textContent = version;
-  document.getElementById('comp-past-files').textContent = "Retrieving...";
-  document.getElementById('comp-past-score').textContent = "Retrieving...";
+  document.getElementById('comp-past-files').textContent = "Buscando...";
+  document.getElementById('comp-past-score').textContent = "Buscando...";
   
   const historicalUrl = resolveAisUrl(`exports/wear-core-knowledge-export-${version}.json`);
   fetch(historicalUrl)
@@ -1029,7 +1070,7 @@ window.compareMetadataVersions = function(version) {
       console.warn("Failed comparison fetch:", err);
       const matchedRecord = live.scoreHistory?.find(s => s.version === version || s.version === `v${version}`);
       if (matchedRecord) {
-        document.getElementById('comp-past-files').textContent = "Historic (No Index)";
+        document.getElementById('comp-past-files').textContent = "Histórico (Sem Índice)";
         document.getElementById('comp-past-score').textContent = matchedRecord.score + '%';
       } else {
         document.getElementById('comp-past-files').textContent = "N/A";
@@ -1059,7 +1100,6 @@ window.shareLink = function(relativeUrl) {
   }
   
   navigator.clipboard.writeText(targetUrl)
-    .then(() => alert(`AI Shared Link copied to clipboard:\n${targetUrl}`))
+    .then(() => alert(`Link de Sincronia IA de Wear Core copiado com sucesso:\n${targetUrl}`))
     .catch(() => alert(`Link: ${targetUrl}`));
 }
-

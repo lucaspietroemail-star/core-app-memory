@@ -10,9 +10,9 @@ function initializeAllCharts() {
         return;
     }
 
-    // Set Theme config
+    // Set Theme config to match dark mode cleanly
     Chart.defaults.color = '#94a3b8';
-    Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+    Chart.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 
     const sharedOptions = {
         responsive: true,
@@ -40,7 +40,7 @@ function initializeAllCharts() {
         }
     }
 
-    // 1. Score Chart
+    // 1. Score Chart (Evolução da Pontuacão)
     const history = data.scoreHistory || [];
     if (history.length > 0) {
         const labels = history.map(h => h?.version ?? 'v?');
@@ -50,10 +50,10 @@ function initializeAllCharts() {
             data: {
                 labels,
                 datasets: [{
-                    label: 'Score',
+                    label: 'Pontuação de Arquitetura',
                     data: scores,
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderColor: '#c084fc', // Neon purple accent
+                    backgroundColor: 'rgba(192, 132, 252, 0.1)',
                     tension: 0.3,
                     fill: true
                 }]
@@ -61,8 +61,8 @@ function initializeAllCharts() {
             options: {
                 ...sharedOptions,
                 scales: {
-                    y: { min: 40, max: 100, grid: { color: '#334155' } },
-                    x: { grid: { color: '#334155' } }
+                    y: { min: 40, max: 100, grid: { color: '#27272a' } },
+                    x: { grid: { color: '#27272a' } }
                 }
             }
         });
@@ -72,12 +72,12 @@ function initializeAllCharts() {
         safeCreateChart('scoreChart', {
             type: 'line',
             data: {
-                labels: ['Current Build'],
+                labels: ['Build Corrente'],
                 datasets: [{
-                    label: 'Score',
+                    label: 'Pontuação de Arquitetura',
                     data: [qgScore],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderColor: '#c084fc',
+                    backgroundColor: 'rgba(192, 132, 252, 0.1)',
                     tension: 0.3,
                     fill: true
                 }]
@@ -85,14 +85,14 @@ function initializeAllCharts() {
             options: {
                 ...sharedOptions,
                 scales: {
-                    y: { min: 40, max: 100, grid: { color: '#334155' } },
-                    x: { grid: { color: '#334155' } }
+                    y: { min: 40, max: 100, grid: { color: '#27272a' } },
+                    x: { grid: { color: '#27272a' } }
                 }
             }
         });
     }
 
-    // 2. Risk Distribution
+    // 2. Risk Distribution (Distribuição de Riscos)
     const modules = Object.values(data.registry?.modules ?? {});
     let lowCount = 0, mediumCount = 0, highCount = 0, criticalCount = 0;
     modules.forEach(m => {
@@ -111,17 +111,17 @@ function initializeAllCharts() {
     safeCreateChart('riskChart', {
         type: 'doughnut',
         data: {
-            labels: ['Low', 'Medium', 'High', 'Critical'],
+            labels: ['Risco Baixo', 'Risco Médio', 'Risco Alto', 'Risco Crítico'],
             datasets: [{
                 data: [lowCount, mediumCount, highCount, criticalCount],
-                backgroundColor: ['#10b981', '#f59e0b', '#f97316', '#ef4444'],
+                backgroundColor: ['#4ade80', '#facc15', '#fb923c', '#f87171'],
                 borderWidth: 0
             }]
         },
         options: sharedOptions
     });
 
-    // 3. Technical Debt by Module
+    // 3. Technical Debt by Module (Débito Técnico por Módulo)
     const debts = data.technicalDebt?.technicalDebt ?? {};
     const debtLabels = Object.keys(debts);
     const debtValues = Object.values(debts).map(items => Array.isArray(items) ? items.length : 0);
@@ -134,22 +134,22 @@ function initializeAllCharts() {
         data: {
             labels: chartLabels,
             datasets: [{
-                label: '# of Debts',
+                label: 'Número de Débitos Técnicos',
                 data: chartValues,
-                backgroundColor: '#3b82f6'
+                backgroundColor: '#c084fc'
             }]
         },
         options: {
             ...sharedOptions,
             plugins: { legend: { display: false } },
             scales: {
-                y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { stepSize: 1 } },
+                y: { beginAtZero: true, grid: { color: '#27272a' }, ticks: { stepSize: 1 } },
                 x: { grid: { display: false } }
             }
         }
     });
 
-    // 4. Module Maturity Distribution
+    // 4. Module Maturity Distribution (Nível de Maturidade)
     let stableCount = 0, migrationCount = 0, legacyCount = 0;
     modules.forEach(m => {
         const mat = (m?.maturity ?? 'UNKNOWN').toUpperCase();
@@ -166,10 +166,10 @@ function initializeAllCharts() {
     safeCreateChart('maturityChart', {
         type: 'pie',
         data: {
-            labels: ['STABLE', 'MIGRATION', 'LEGACY'],
+            labels: ['ESTÁVEL (Stable)', 'MIGRAÇÃO (Migration)', 'LEGADO (Legacy)'],
             datasets: [{
                 data: [stableCount, migrationCount, legacyCount],
-                backgroundColor: ['#10b981', '#3b82f6', '#ef4444'],
+                backgroundColor: ['#4ade80', '#c084fc', '#f87171'],
                 borderWidth: 0
             }]
         },
@@ -187,4 +187,3 @@ window.addEventListener('aisStateUpdated', () => {
     console.log("[AIS Charts] State updated event captured. Re-rendering charts...");
     initializeAllCharts();
 });
-
