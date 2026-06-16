@@ -32,11 +32,16 @@ jobs:
       - name: Execute AIS Intelligence Engine (Runtime Data Generation)
         run: |
           echo "=== Generating fresh architecture data before sync ==="
+          node ais/scripts/wear-core-archive.js || true
+          node ais/scripts/wear-core-insights.js || true
           node ais/scripts/architecture-lint.js || true
           node ais/scripts/auto-fix.js || true
           node ais/scripts/dependency-guard.js || true
           node ais/scripts/breaking-change-detector.js || true
+          node ais/scripts/governance-audit.js || true
+          node ais/scripts/self-evolution.js || true
           node ais/scripts/quality-gate.js || true
+          node ais/scripts/generate-ai-knowledge.js || true
           node ais/scripts/generate-dashboard.js
           node ais/scripts/ai-context-exporter.js || true
           echo "✓ All AIS artifacts generated and ready for sync."

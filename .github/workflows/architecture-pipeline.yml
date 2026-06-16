@@ -23,7 +23,15 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Build Wear Core Telemetry and Archive
+        run: node ais/scripts/wear-core-archive.js
+
+      - name: Run Wear Core Heuristic Insights
+        if: always()
+        run: node ais/scripts/wear-core-insights.js
+
       - name: Run Architecture Lint
+        if: always()
         run: node ais/scripts/architecture-lint.js
 
       - name: Execute Architectural Auto-Fix
@@ -38,6 +46,10 @@ jobs:
         if: always()
         run: node ais/scripts/breaking-change-detector.js
 
+      - name: Run Governance Audit
+        if: always()
+        run: node ais/scripts/governance-audit.js
+
       - name: Run Self-Evolution Engine
         if: always()
         run: node ais/scripts/self-evolution.js
@@ -49,6 +61,10 @@ jobs:
       - name: Generate Executive Markdown Report
         if: always()
         run: node ais/scripts/generate-report.js
+
+      - name: Compile AI Knowledge and Semantic Pages
+        if: always()
+        run: node ais/scripts/generate-ai-knowledge.js
 
       - name: Generate Visual Architecture Dashboard
         if: always()

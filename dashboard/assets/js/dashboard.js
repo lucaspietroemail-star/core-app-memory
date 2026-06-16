@@ -141,7 +141,8 @@ function normalizeDashboardState(data) {
     roadmap: data.roadmap || { roadmap: {} },
     activeRules: data.activeRules || { activeRules: [] },
     deprecatedRules: data.deprecatedRules || { deprecatedRules: [] },
-    ruleHistory: data.ruleHistory || { ruleHistory: [] }
+    ruleHistory: data.ruleHistory || { ruleHistory: [] },
+    wearCoreArchive: data.wearCoreArchive || {}
   };
 }
 

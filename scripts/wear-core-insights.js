@@ -2,13 +2,14 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT_DIR = path.resolve(__dirname, '../..');
-const REPORT_FILE = path.join(ROOT_DIR, 'wear-core-dashboard-audit-report.json');
+const EXPORTS_DIR = path.join(ROOT_DIR, 'ais', 'exports');
+const REPORT_FILE = path.join(EXPORTS_DIR, 'wear-core-dashboard-audit-report.json');
 
 const EXPORTS = {
-  state: path.join(ROOT_DIR, 'wear-core-state-export.json'),
-  knowledge: path.join(ROOT_DIR, 'wear-core-knowledge-export.json'),
-  focus: path.join(ROOT_DIR, 'wear-core-current-focus.json'),
-  aiActions: path.join(ROOT_DIR, 'wear-core-ai-actions.json')
+  state: path.join(EXPORTS_DIR, 'wear-core-state-export.json'),
+  knowledge: path.join(EXPORTS_DIR, 'wear-core-knowledge-export.json'),
+  focus: path.join(EXPORTS_DIR, 'wear-core-current-focus.json'),
+  aiActions: path.join(EXPORTS_DIR, 'wear-core-ai-actions.json')
 };
 
 function loadJsonOrDefault(filePath, defaultVal = {}) {

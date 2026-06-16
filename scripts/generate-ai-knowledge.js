@@ -7,11 +7,11 @@ const EXPORTS_AIS = path.join(ROOT_DIR, 'ais', 'exports');
 
 const INPUT_FILES = {
   version: path.join(ROOT_DIR, 'VERSION.json'),
-  state: path.join(ROOT_DIR, 'wear-core-state-export.json'),
-  knowledge: path.join(ROOT_DIR, 'wear-core-knowledge-export.json'),
-  focus: path.join(ROOT_DIR, 'wear-core-current-focus.json'),
-  actions: path.join(ROOT_DIR, 'wear-core-ai-actions.json'),
-  insights: path.join(ROOT_DIR, 'wear-core-dashboard-audit-report.json')
+  state: path.join(EXPORTS_AIS, 'wear-core-state-export.json'),
+  knowledge: path.join(EXPORTS_AIS, 'wear-core-knowledge-export.json'),
+  focus: path.join(EXPORTS_AIS, 'wear-core-current-focus.json'),
+  actions: path.join(EXPORTS_AIS, 'wear-core-ai-actions.json'),
+  insights: path.join(EXPORTS_AIS, 'wear-core-dashboard-audit-report.json')
 };
 
 // Ensure directories exist
@@ -273,11 +273,10 @@ function processKnowledgeLayer() {
   const mirroredExportFiles = ['wear-core-state-export.json', 'wear-core-knowledge-export.json', 'wear-core-current-focus.json', 'wear-core-ai-actions.json', 'wear-core-dashboard-audit-report.json'];
   
   mirroredExportFiles.forEach(fName => {
-    const srcPath = path.join(ROOT_DIR, fName);
+    const srcPath = path.join(EXPORTS_AIS, fName);
     if (fs.existsSync(srcPath)) {
       const data = loadJsonOrDefault(srcPath, {});
       writeJson(path.join(EXPORTS_ROOT, fName), data);
-      writeJson(path.join(EXPORTS_AIS, fName), data);
     }
   });
 
